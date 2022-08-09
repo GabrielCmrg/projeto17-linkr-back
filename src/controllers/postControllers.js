@@ -1,8 +1,8 @@
-import { getPost } from "../repository/postsRepository";
+import { getPost } from "../repository/postsRepository.js";
 
-function timeline(res, req){
+async function timeline(req, res){
     try{
-        const posts = getPost();
+        const posts = await getPost();
         res.status(200).send(posts);
     }
     catch{
