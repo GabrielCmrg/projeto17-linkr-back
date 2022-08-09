@@ -10,5 +10,5 @@ export const signupSchema = joi.object({
     )
     .required(),
   name: joi.string().trim().required(),
-  pic_url: joi.string().trim().uri().required(),
+  picUrl: joi.string().trim().uri().required(),
 });
