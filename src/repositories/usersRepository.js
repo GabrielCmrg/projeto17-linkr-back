@@ -7,3 +7,10 @@ export const createUser = async (userObject) => {
     [email, name, password, picUrl]
   );
 };
+
+export const getUserData = async (userId) => {
+  return connection.query(
+    'SELECT u.name, u."picUrl" FROM users u WHERE u.id=$1',
+    [userId]
+  );
+};
