@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "node ./src/app.js",
-    "lint": "eslint ./src"
+    "lint": "eslint ./src",
+    "postgres": "sudo su -c psql postgres"
   },
   "keywords": [],
   "author": "",
