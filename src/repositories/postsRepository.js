@@ -1,4 +1,4 @@
-import {connection} from '../db/database.js';
+import {connection} from '../databases/database.js';
 
 async function getPost(){
     const {rows : posts} = await connection.query(`
