@@ -1,4 +1,4 @@
-import { getPost } from "../repository/postsRepository.js";
+import { getPost,savePostInDatabase } from "../repository/postsRepository.js";
 
 async function timeline(req, res){
     try{
@@ -11,8 +11,9 @@ async function timeline(req, res){
 }
 
 async function sendPost(req, res){
+    
     try{
-
+        
     }
     catch{
         console.log(error);
