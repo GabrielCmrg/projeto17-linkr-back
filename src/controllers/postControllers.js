@@ -10,4 +10,14 @@ async function timeline(req, res){
     }
 }
 
-export {timeline};
+async function sendPost(req, res){
+    try{
+
+    }
+    catch{
+        console.log(error);
+        res.status(500).send("houve um erro ao armazernar o post");
+    }
+}
+
+export {timeline, sendPost};
