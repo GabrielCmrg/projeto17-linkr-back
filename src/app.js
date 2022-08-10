@@ -13,5 +13,10 @@ app.use(router);
 
 const { PORT } = process.env;
 app.listen(PORT, () => {
+<<<<<<< HEAD
   console.log(`App listening on port ${PORT}`);
 });
+=======
+  console.log(`App listening on port: ${PORT}`);
+});
+>>>>>>> timeline
