@@ -1,8 +1,10 @@
-import { Router } from 'express';
-import { timeline } from '../controllers/postControllers.js';
+import express from "express";
 
-const postRouter = Router();
-postRouter.get("/timeline", timeline);
-postRouter.post("/timeline");
+import { postMiddlewares } from "../middlewares/index.js";
+import { postControllers } from "../controllers/index.js";
+const postRouter = express.Router();
+
+postRouter.get("/timeline", postControllers.timeline);
+postRouter.post("/timeline",postMiddlewares.checkSendPostBody,postControllers.sendPost);
 
 export default postRouter;

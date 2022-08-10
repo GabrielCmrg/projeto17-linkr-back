@@ -12,9 +12,9 @@ async function getPost(){
 
 async function savePostInDatabase(userId,content,postLink){
     return connection.query(`
-        INSERT INTO post(author,content,link)
+        INSERT INTO posts(author,content,link)
         VALUES ($1,$2,$3)
-    `,[userId,postLink, content]);
+    `,[userId, content, postLink]);
 };
 
 export { getPost, savePostInDatabase };

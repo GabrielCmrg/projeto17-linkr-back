@@ -1,8 +1,9 @@
-import { getPost,savePostInDatabase } from "../repositories/postsRepository.js";
+import {postRepository} from '../repositories/index.js'
+ 
 
 async function timeline(req, res){
     try{
-        const posts = await getPost();
+        const posts = await postRepository.getPost();
         res.status(200).send(posts);
     }
     catch{
@@ -11,13 +12,13 @@ async function timeline(req, res){
 }
 
 async function sendPost(req, res){
-    const {userId, content, postLink} = req.body;
-    // const userId = res.locals.id
+    const {content, postLink} = req.body;
+    const userId = res.locals.data.id;
     try{
-        await savePostInDatabase(userId,content,postLink);
+        await postRepository.savePostInDatabase(userId,content,postLink);
         res.sendStatus(201);
     } 
-    catch{
+    catch(error){
         console.log(error);
         res.status(500).send("houve um erro ao armazernar o post");
     }
