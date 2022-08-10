@@ -1,4 +1,6 @@
-import Joi from "joi";
+import Joi from 'joi';
 
-export const sendPostSchema = Joi.string().uri().trim().required();
-    
+export const sendPostSchema = Joi.object({
+  postLink: Joi.string().uri().trim().required(),
+  content: Joi.string().allow(null, '').trim(),
+});
