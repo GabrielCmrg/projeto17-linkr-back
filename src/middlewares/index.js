@@ -1,2 +1,2 @@
 export * as authMiddlewares from './authMiddlewares.js';
-export * as postMiddlewares from './postMiddlewares.js';
+export * as postsMiddlewares from './postsMiddlewares.js';

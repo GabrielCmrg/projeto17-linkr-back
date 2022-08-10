@@ -1,7 +1,7 @@
-import { postSchemas } from '../schemas/index.js';
+import { postsSchemas } from '../schemas/index.js';
 
 export function checkSendPostBody(req, res, next) {
-  const validation = postSchemas.sendPostSchema.validate(req.body.postLink);
+  const validation = postsSchemas.sendPostSchema.validate(req.body.postLink);
   if (validation.error) {
     const returnObject = {
       message: 'O objeto enviado não é válido. Consulte a documentação da API.',

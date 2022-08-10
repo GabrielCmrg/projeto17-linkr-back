@@ -1,2 +1,2 @@
 export * as usersRepository from './usersRepository.js';
-export * as postRepository from './postsRepository.js';
+export * as postsRepository from './postsRepository.js';

@@ -1,11 +1,11 @@
 import express from 'express';
 
 import authRouter from './authRouter.js';
-import postRouter from './postRouter.js';
+import postsRouter from './postsRouter.js';
 
 const router = express.Router();
 
 router.use(authRouter);
-router.use(postRouter);
+router.use(postsRouter);
 
 export default router;
