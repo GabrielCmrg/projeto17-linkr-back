@@ -10,4 +10,11 @@ async function getPost(){
     return posts
 }
 
-export { getPost };
+async function savePostInDatabase(link, content){
+    return connection.query(`
+        INSERT INTO post(author,content,link)
+        VALUES ($1,$2,$3)
+    `,[userId,link, content]);
+};
+
+export { getPost, savePostInDatabase };
