@@ -9,5 +9,7 @@ export function checkSendPostBody(req, res, next) {
     };
     return res.status(422).json(returnObject);
   }
+
+  res.locals.postInfo = validation.value;
   return next();
 }

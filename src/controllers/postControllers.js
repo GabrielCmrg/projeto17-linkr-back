@@ -10,8 +10,10 @@ async function timeline(req, res) {
 }
 
 async function sendPost(req, res) {
-  const { content, postLink } = req.body;
-  const userId = 1;
+  const { postInfo } = res.locals;
+  const { content, postLink } = postInfo;
+  const { userId } = res.locals.userId;
+
   try {
     await postRepository.savePostInDatabase(userId, content, postLink);
     res.sendStatus(201);
