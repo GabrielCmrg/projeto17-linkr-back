@@ -10,5 +10,10 @@ authRouter.post(
   authMiddlewares.checkSignupBody,
   usersController.registerNewUser
 );
+authRouter.post(
+  '/login',
+  authMiddlewares.checkLoginBody,
+  usersController.loginUser
+);
 
 export default authRouter;
