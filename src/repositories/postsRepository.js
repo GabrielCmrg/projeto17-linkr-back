@@ -1,4 +1,4 @@
-import {connection} from '../db/database.js';
+import connection from '../databases/postgres.js';
 
 async function getPost(){
     const {rows : posts} = await connection.query(`
@@ -10,11 +10,11 @@ async function getPost(){
     return posts
 }
 
-async function savePostInDatabase(link, content){
+async function savePostInDatabase(userId,content,postLink){
     return connection.query(`
         INSERT INTO post(author,content,link)
         VALUES ($1,$2,$3)
-    `,[userId,link, content]);
+    `,[userId,postLink, content]);
 };
 
 export { getPost, savePostInDatabase };

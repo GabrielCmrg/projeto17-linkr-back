@@ -1,4 +1,4 @@
-import { getPost,savePostInDatabase } from "../repository/postsRepository.js";
+import { getPost,savePostInDatabase } from "../repositories/postsRepository.js";
 
 async function timeline(req, res){
     try{
@@ -11,10 +11,12 @@ async function timeline(req, res){
 }
 
 async function sendPost(req, res){
-    
+    const {userId, content, postLink} = req.body;
+    // const userId = res.locals.id
     try{
-        
-    }
+        await savePostInDatabase(userId,content,postLink);
+        res.sendStatus(201);
+    } 
     catch{
         console.log(error);
         res.status(500).send("houve um erro ao armazernar o post");
