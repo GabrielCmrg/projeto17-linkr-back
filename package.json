@@ -6,17 +6,13 @@
   "type": "module",
   "scripts": {
     "start": "node ./src/app.js",
-<<<<<<< HEAD
     "lint": "eslint ./src",
-    "postgres": "sudo su -c psql postgres"
-=======
+    "postgres": "sudo su -c psql postgres",
     "dev": "nodemon ./src/app.js"
->>>>>>> timeline
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-<<<<<<< HEAD
   "devDependencies": {
     "@babel/eslint-parser": "^7.18.9",
     "eslint": "^8.21.0",
@@ -28,19 +24,14 @@
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.7.1"
   },
-=======
->>>>>>> timeline
   "dependencies": {
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "joi": "^17.6.0",
-<<<<<<< HEAD
-=======
     "jsonwebtoken": "^8.5.1",
     "nodemon": "^2.0.19",
->>>>>>> timeline
     "pg": "^8.7.3"
   }
 }
