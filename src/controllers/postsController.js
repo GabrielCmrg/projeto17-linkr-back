@@ -1,6 +1,6 @@
 import { postsRepository } from '../repositories/index.js';
 
-async function timeline(req, res) {
+export async function timeline(req, res) {
   try {
     const posts = await postsRepository.getPost();
     res.status(200).send(posts);
@@ -9,9 +9,9 @@ async function timeline(req, res) {
   }
 }
 
-async function sendPost(req, res) {
+export async function sendPost(req, res) {
   const { content, postLink } = req.body;
-  const userId = res.locals.data.id;
+  const { userId } = res.locals;
   try {
     await postsRepository.savePostInDatabase(userId, content, postLink);
     res.sendStatus(201);
@@ -20,5 +20,3 @@ async function sendPost(req, res) {
     res.status(500).send('houve um erro ao armazernar o post');
   }
 }
-
-export { timeline, sendPost };
