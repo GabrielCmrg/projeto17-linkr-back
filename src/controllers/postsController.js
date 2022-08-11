@@ -36,7 +36,7 @@ export const sendPost = async (req, res) => {
 };
 
 export const getUserPosts = async (req, res) => {
-  const { id } = req.params;
+  const { id } = res.locals;
 
   try {
     const userData = await usersRepository.getUserById(id);
