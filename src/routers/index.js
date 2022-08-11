@@ -8,5 +8,4 @@ const router = express.Router();
 router.use(authRouter);
 router.use(postsRouter);
 
-
 export default router;

@@ -14,14 +14,13 @@ export const checkSendPostBody = (req, res, next) => {
   res.locals.post = validation.value;
   return next();
 };
+
 export const checkReqParams = (req, res, next) => {
-  const { id } = req.params
+  const { id } = req.params;
 
   if (!/^[0-9]*$/.test(id)) {
-      return res
-          .status(400)
-          .send('Id de usuário inválido')
+    return res.status(400).send('Invalid user Id.');
   }
-  
-  next();
+
+  return next();
 };

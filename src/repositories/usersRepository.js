@@ -8,11 +8,12 @@ export const createUser = async (userObject) => {
   );
 };
 
-export const getUserData = async (userId) => {
-  return connection.query(
-    'SELECT u.name, u."picUrl" FROM users u WHERE u.id=$1',
+export const getUserById = async (userId) => {
+  const { rows: user } = connection.query(
+    'SELECT * FROM users u WHERE u.id = $1',
     [userId]
   );
+  return user[0];
 };
 
 export const getUserByEmail = async (email) => {
@@ -22,4 +23,3 @@ export const getUserByEmail = async (email) => {
   );
   return user[0];
 };
-

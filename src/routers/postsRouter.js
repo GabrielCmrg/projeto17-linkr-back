@@ -25,5 +25,4 @@ postsRouter.post(
   postsController.sendPost
 );
 
-
 export default postsRouter;

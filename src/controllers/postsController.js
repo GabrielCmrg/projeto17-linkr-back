@@ -1,7 +1,6 @@
 import urlMetadata from 'url-metadata';
 
-import { postsRepository } from '../repositories/index.js';
-import { usersRepository } from '../repositories/index.js';
+import { postsRepository, usersRepository } from '../repositories/index.js';
 
 export const getTimelinePosts = async (req, res) => {
   try {
@@ -37,30 +36,26 @@ export const sendPost = async (req, res) => {
 };
 
 export const getUserPosts = async (req, res) => {
-  const { id } = req.params
-  
+  const { id } = req.params;
+
   try {
-      const {rows: userData} = await usersRepository.getUserData(id)
-      const {rows: userPosts} = await postsRepository.getUserPosts(id)
+    const userData = await usersRepository.getUserById(id);
+    const userPosts = await postsRepository.getUserPosts(id);
 
-      if (!userData.length) {
-          return res 
-              .status(404)
-              .send('Usuário não encontrado')
-      }
+    if (!userData) {
+      return res.status(404).send('User not found.');
+    }
 
-      const pageBody = {
-          userName: userData[0].name,
-          userPicUrl: userData[0].picUrl,
-          userPosts
-      }
-      return res.status(200).send(pageBody)
+    const pageBody = {
+      userName: userData.name,
+      userPicUrl: userData.pic_url,
+      userPosts,
+    };
+    return res.json(pageBody);
   } catch (error) {
-
-      console.error(error)
-      return res
-          .status(500)
-          .send('Algo deu errado')
+    console.error(error);
+    return res
+      .status(500)
+      .send('Something went wrong when trying to search the posts.');
   }
 };
-

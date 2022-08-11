@@ -16,7 +16,7 @@ export const getPosts = async () => {
       JOIN users ON users.id = posts.author_id
       JOIN urls ON posts.url_id = urls.id
       ORDER BY id DESC
-      LIMIT 20;
+      LIMIT 20
     `
   );
 
@@ -24,24 +24,27 @@ export const getPosts = async () => {
 };
 
 export const getUserPosts = async (userId) => {
-  return connection.query(
-    `SELECT
-      p.id,
-      us.name,
-      us.pic_url,
-      p.content,
-      ur.url as link_url,
-      ur.title as link_title,
-      ur.image as link_image,
-      ur.description as link_description 
-    FROM posts p 
-    JOIN users us ON us.id = p.author_id
-    JOIN urls ur ON ur.id = p.author_id
-    WHERE p.author_id = $1 
-    ORDER BY id DESC
-    LIMIT 20`,
+  const { rows: posts } = await connection.query(
+    `
+      SELECT
+        p.id,
+        us.name,
+        us.pic_url,
+        p.content,
+        ur.url as link_url,
+        ur.title as link_title,
+        ur.image as link_image,
+        ur.description as link_description 
+      FROM posts p 
+      JOIN users us ON us.id = p.author_id
+      JOIN urls ur ON ur.id = p.url_id
+      WHERE p.author_id = $1 
+      ORDER BY id DESC
+      LIMIT 20
+    `,
     [userId]
   );
+  return posts;
 };
 
 export const createPost = async (userId, content, urlId) => {
@@ -76,4 +79,3 @@ export const getUrlByUrl = async (url) => {
   );
   return urlMetadata[0];
 };
-
