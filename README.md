@@ -114,3 +114,28 @@ You can make a post to the Timeline by making a POST request to route `/timeline
 ```
 
 If you send the header or body incorrectly it will respond with 422 status code. If your token is invalid returns 401. If anything breaks internally returns 500. Otherwise returns 201.
+
+#### Get user Timeline
+
+You can get the user Timeline by making a GET request to route `/users/:id` with authentication header, where `id` is the id of the user you want to see the Timeline.
+
+If you send the header incorrectly it will respond with 422 status code. If your token is invalid returns 401. If you send a id that is not a number return 400. If anything breaks internally returns 500. Otherwise returns 200 with a object like
+
+```js
+{
+  userName,
+  userPicUrl,
+  userPosts: [
+    {
+      id, // int, post id
+      name, // string, post owner
+      pic_url, // url, profile picture
+      content, // string, post description
+      link_url, // url, link published
+      link_title, // string, title of the link
+      link_image, // url, link preview
+      link_description, // string
+    },
+  ],
+}
+```
