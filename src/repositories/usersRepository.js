@@ -8,6 +8,14 @@ export const createUser = async (userObject) => {
   );
 };
 
+export const getUserById = async (userId) => {
+  const { rows: user } = connection.query(
+    'SELECT * FROM users u WHERE u.id = $1',
+    [userId]
+  );
+  return user[0];
+};
+
 export const getUserByEmail = async (email) => {
   const { rows: user } = await connection.query(
     'SELECT * FROM users WHERE email = $1',

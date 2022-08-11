@@ -1,6 +1,6 @@
 import urlMetadata from 'url-metadata';
 
-import { postsRepository } from '../repositories/index.js';
+import { postsRepository, usersRepository } from '../repositories/index.js';
 
 export const getTimelinePosts = async (req, res) => {
   try {
@@ -32,5 +32,30 @@ export const sendPost = async (req, res) => {
     return res
       .status(500)
       .send('Something went wrong when trying to create a post.');
+  }
+};
+
+export const getUserPosts = async (req, res) => {
+  const { id } = res.locals;
+
+  try {
+    const userData = await usersRepository.getUserById(id);
+    const userPosts = await postsRepository.getUserPosts(id);
+
+    if (!userData) {
+      return res.status(404).send('User not found.');
+    }
+
+    const pageBody = {
+      userName: userData.name,
+      userPicUrl: userData.pic_url,
+      userPosts,
+    };
+    return res.json(pageBody);
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .send('Something went wrong when trying to search the posts.');
   }
 };
