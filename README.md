@@ -46,3 +46,24 @@ You can sign-up to this API by making a POST request to route `/sign-up` with a 
 ```
 
 If everything is ok, it will return status code 201. If any key is improperly passed it will return status code 422. If the email is already being used it will return status code 409. If anything breaks internally it will return status code 500.
+
+#### Login
+
+You can login to this API by making a POST request to route `/login` with a object like
+
+```js
+{
+  email, // string with email format and required
+  password, // string and required
+}
+```
+
+If everything is ok, it will return status code 200 and a object like
+
+```js
+{
+  token, // jwt string
+}
+```
+
+If any key is improperly passed it will return status code 422. If the email or the password is wrong it will return status code 401. If anything breaks internally it will return status code 500.
