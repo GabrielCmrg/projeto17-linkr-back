@@ -1,18 +1,21 @@
-import { postsRepository } from '../repositories/index.js';
 import urlMetadata from 'url-metadata';
 
-export async function timeline(req, res) {
+import { postsRepository } from '../repositories/index.js';
+
+export const timeline = async (req, res) => {
   try {
     const posts = await postsRepository.getPost();
-    res.status(200).send(posts);
+    return res.status(200).send(posts);
   } catch (error) {
-    res.sendStatus(500);
+    return res.sendStatus(500);
   }
-}
+};
 
-export async function sendPost(req, res) {
+export const sendPost = async (req, res) => {
   const { content, postLink } = req.body;
-  const { url, title, image, description } = await urlMetadata(postLink, { descriptionLength: 50 })
+  const { url, title, image, description } = await urlMetadata(postLink, {
+    descriptionLength: 50,
+  });
   const { userId } = res.locals;
   try {
     let urlsInfo = await postsRepository.getUrl(url);
@@ -26,6 +29,6 @@ export async function sendPost(req, res) {
     return res.sendStatus(201);
   } catch (error) {
     console.log(error);
-    res.status(500).send('houve um erro ao armazernar o post');
+    return res.status(500).send('houve um erro ao armazernar o post');
   }
-}
+};
