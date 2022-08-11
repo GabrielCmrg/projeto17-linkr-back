@@ -1,6 +1,6 @@
 import connection from '../databases/postgres.js';
 
-export const getPost = async () => {
+export const getPosts = async () => {
   const { rows: posts } = await connection.query(
     `
       SELECT 

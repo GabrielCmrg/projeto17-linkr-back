@@ -2,12 +2,15 @@ import urlMetadata from 'url-metadata';
 
 import { postsRepository } from '../repositories/index.js';
 
-export const timeline = async (req, res) => {
+export const getTimelinePosts = async (req, res) => {
   try {
-    const posts = await postsRepository.getPost();
-    return res.status(200).send(posts);
+    const posts = await postsRepository.getPosts();
+    return res.json(posts);
   } catch (error) {
-    return res.sendStatus(500);
+    console.error(error);
+    return res
+      .status(500)
+      .send('Something went wrong when trying to get the timeline posts.');
   }
 };
 

@@ -8,7 +8,7 @@ const postsRouter = express.Router();
 postsRouter.get(
   '/timeline',
   authMiddlewares.tokenValidation,
-  postsController.timeline
+  postsController.getTimelinePosts
 );
 postsRouter.post(
   '/timeline',
