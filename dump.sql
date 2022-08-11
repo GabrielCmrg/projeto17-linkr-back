@@ -133,7 +133,7 @@ ALTER SEQUENCE "public"."posts_id_seq" OWNED BY "public"."posts"."id";
 CREATE TABLE "public"."urls" (
     "id" integer NOT NULL,
     "url" "text" NOT NULL,
-    "title" "text" NOT NULL,
+    "title" "text",
     "image" "text" NOT NULL,
     "description" "text" NOT NULL
 );
@@ -256,6 +256,7 @@ COPY "public"."post_tags" ("id", "post_id", "tag") FROM stdin;
 --
 
 COPY "public"."posts" ("id", "url_id", "content", "author_id") FROM stdin;
+1	2	If you want to take my picture.	1
 \.
 
 
@@ -264,6 +265,7 @@ COPY "public"."posts" ("id", "url_id", "content", "author_id") FROM stdin;
 --
 
 COPY "public"."urls" ("id", "url", "title", "image", "description") FROM stdin;
+2	https://rollingstone.uol.com.br/media/uploads/deadpool.jpg	\N		
 \.
 
 
@@ -272,6 +274,7 @@ COPY "public"."urls" ("id", "url", "title", "image", "description") FROM stdin;
 --
 
 COPY "public"."users" ("id", "name", "email", "password", "pic_url") FROM stdin;
+1	Clovis	email@domain.com	$2b$10$WgVki9.D4t32pzLlhWCImuEcsJkiMOecatID0.ZQtGBx8nqlX9Q/W	https://rollingstone.uol.com.br/media/uploads/deadpool.jpg
 \.
 
 
@@ -293,21 +296,21 @@ SELECT pg_catalog.setval('"public"."post_tags_id_seq"', 1, false);
 -- Name: posts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: qbeaofxarsjuqj
 --
 
-SELECT pg_catalog.setval('"public"."posts_id_seq"', 1, false);
+SELECT pg_catalog.setval('"public"."posts_id_seq"', 1, true);
 
 
 --
 -- Name: urls_id_seq; Type: SEQUENCE SET; Schema: public; Owner: qbeaofxarsjuqj
 --
 
-SELECT pg_catalog.setval('"public"."urls_id_seq"', 1, false);
+SELECT pg_catalog.setval('"public"."urls_id_seq"', 2, true);
 
 
 --
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: qbeaofxarsjuqj
 --
 
-SELECT pg_catalog.setval('"public"."users_id_seq"', 1, false);
+SELECT pg_catalog.setval('"public"."users_id_seq"', 1, true);
 
 
 --
