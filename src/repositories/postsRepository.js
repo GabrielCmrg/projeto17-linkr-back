@@ -23,7 +23,7 @@ export const getPosts = async () => {
   return posts;
 };
 
-export const savePostInDatabase = async (userId, content, urlId) => {
+export const createPost = async (userId, content, urlId) => {
   await connection.query(
     `
       INSERT INTO posts(author_id, content, url_id)
@@ -33,23 +33,25 @@ export const savePostInDatabase = async (userId, content, urlId) => {
   );
 };
 
-export const saveUrlInDatabase = async (url, title, image, description) => {
-  await connection.query(
+export const createUrl = async (url, title, image, description) => {
+  const { rows: urlMetadata } = await connection.query(
     `
       INSERT INTO urls(url, title, image, description)
       VALUES ($1, $2, $3, $4)
+      RETURNING *
     `,
     [url, title, image, description]
   );
+  return urlMetadata[0];
 };
 
-export const getUrl = async (url) => {
-  const { rows: urls } = await connection.query(
+export const getUrlByUrl = async (url) => {
+  const { rows: urlMetadata } = await connection.query(
     `
       SELECT * FROM urls
-      WHERE url = $1;
+      WHERE url = $1
     `,
     [url]
   );
-  return urls;
+  return urlMetadata[0];
 };
