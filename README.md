@@ -63,6 +63,7 @@ If everything is ok, it will return status code 200 and a object like
 ```js
 {
   token, // jwt string
+  image, // url for the user profile photo
 }
 ```
 
