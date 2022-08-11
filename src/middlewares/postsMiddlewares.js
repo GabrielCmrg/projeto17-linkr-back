@@ -19,7 +19,7 @@ export const checkReqParams = (req, res, next) => {
   const { id } = req.params;
 
   if (!/^[0-9]*$/.test(id)) {
-    return res.status(400).send('Invalid user Id.');
+    return res.status(400).send('Invalid Id.');
   }
 
   res.locals.id = id;
