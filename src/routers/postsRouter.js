@@ -1,13 +1,18 @@
 import express from 'express';
 
-import { postMiddlewares } from '../middlewares/index.js';
+import { postMiddlewares, authMiddlewares } from '../middlewares/index.js';
 import { postsController } from '../controllers/index.js';
 
 const postsRouter = express.Router();
 
-postsRouter.get('/timeline', postsController.timeline);
+postsRouter.get(
+  '/timeline',
+  authMiddlewares.tokenValidation,
+  postsController.getTimelinePosts
+);
 postsRouter.post(
   '/timeline',
+  authMiddlewares.tokenValidation,
   postMiddlewares.checkSendPostBody,
   postsController.sendPost
 );

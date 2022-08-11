@@ -1,22 +1,36 @@
+import urlMetadata from 'url-metadata';
+
 import { postsRepository } from '../repositories/index.js';
 
-export async function timeline(req, res) {
+export const getTimelinePosts = async (req, res) => {
   try {
-    const posts = await postsRepository.getPost();
-    res.status(200).send(posts);
+    const posts = await postsRepository.getPosts();
+    return res.json(posts);
   } catch (error) {
-    res.sendStatus(500);
+    console.error(error);
+    return res
+      .status(500)
+      .send('Something went wrong when trying to get the timeline posts.');
   }
-}
+};
 
-export async function sendPost(req, res) {
-  const { content, postLink } = req.body;
+export const sendPost = async (req, res) => {
+  const { content, postLink } = res.locals.post;
+  const { url, title, image, description } = await urlMetadata(postLink, {
+    descriptionLength: 50,
+  });
   const { userId } = res.locals;
   try {
-    await postsRepository.savePostInDatabase(userId, content, postLink);
-    res.sendStatus(201);
+    let urlInfo = await postsRepository.getUrlByUrl(url);
+    if (!urlInfo) {
+      urlInfo = await postsRepository.createUrl(url, title, image, description);
+    }
+    await postsRepository.createPost(userId, content, urlInfo.id);
+    return res.status(201).send('Post created!');
   } catch (error) {
     console.log(error);
-    res.status(500).send('houve um erro ao armazernar o post');
+    return res
+      .status(500)
+      .send('Something went wrong when trying to create a post.');
   }
-}
+};

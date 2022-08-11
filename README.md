@@ -68,3 +68,49 @@ If everything is ok, it will return status code 200 and a object like
 ```
 
 If any key is improperly passed it will return status code 422. If the email or the password is wrong it will return status code 401. If anything breaks internally it will return status code 500.
+
+#### Token
+
+Every authenticated route needs a `Authorization` header. This header need to begin with `Bearer` and then the token to validate separated by space.
+
+### Timeline
+
+#### Get Timeline
+
+**This route is authenticated.**
+
+You can get the Timeline by making a GET request to route `/timeline` with authentication header.
+
+If you send the header incorrectly it will respond with 422 status code. If your token is invalid returns 401. If anything breaks internally returns 500. Otherwise returns 200 with a object like
+
+```js
+{
+  [
+    {
+      id, // int, post id
+      name, // string, post owner
+      pic_url, // url, profile picture
+      content, // string, post description
+      link_url, // url, link published
+      link_title, // string, title of the link
+      link_image, // url, link preview
+      link_description, // string
+    },
+  ];
+}
+```
+
+#### Make a post
+
+**This route is authenticated.**
+
+You can make a post to the Timeline by making a POST request to route `/timeline` with authentication header and a object like
+
+```js
+{
+  postLink, // String with url format and required
+  content, // String for post description and optional (null or empty string)
+}
+```
+
+If you send the header or body incorrectly it will respond with 422 status code. If your token is invalid returns 401. If anything breaks internally returns 500. Otherwise returns 201.

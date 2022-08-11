@@ -1,2 +1,2 @@
 export * as authSchemas from './authSchemas.js';
-export * as postSchemas from './postsSchemas.js';
+export * as postsSchemas from './postsSchemas.js';
