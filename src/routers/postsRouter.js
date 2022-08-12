@@ -18,6 +18,12 @@ postsRouter.get(
   postsController.getTimelinePosts
 );
 
+postsRouter.get(
+  '/hashtag/:hashtag',
+  authMiddlewares.tokenValidation,
+  postsController.getTagPosts
+);
+
 postsRouter.post(
   '/timeline',
   authMiddlewares.tokenValidation,

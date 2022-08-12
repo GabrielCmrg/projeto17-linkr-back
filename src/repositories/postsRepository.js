@@ -39,10 +39,36 @@ export const getUserPosts = async (userId) => {
       JOIN users us ON us.id = p.author_id
       JOIN urls ur ON ur.id = p.url_id
       WHERE p.author_id = $1 
-      ORDER BY id DESC
+      ORDER BY p.id DESC
       LIMIT 20
     `,
     [userId]
+  );
+  return posts;
+};
+
+export const getTagPosts = async (hashtag) => {
+  const { rows: posts } = await connection.query(
+    `
+      SELECT
+        p.id,
+        us.name,
+        us.pic_url,
+        p.content,
+        ur.url as link_url,
+        ur.title as link_title,
+        ur.image as link_image,
+        ur.description as link_description 
+      FROM posts p 
+      JOIN users us ON us.id = p.author_id
+      JOIN urls ur ON ur.id = p.url_id
+      JOIN tag_mentions tm ON tm.post_id = p.id
+      JOIN tags t ON t.id = tm.tag_id
+      WHERE t.name ILIKE $1
+      ORDER BY p.id DESC
+      LIMIT 20
+    `,
+    [hashtag]
   );
   return posts;
 };

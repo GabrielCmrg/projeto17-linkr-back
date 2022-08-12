@@ -74,7 +74,7 @@ export const sendPost = async (req, res) => {
 };
 
 export const getUserPosts = async (req, res) => {
-  const { id } = res.locals;
+  const { id } = req.params;
 
   try {
     const userData = await usersRepository.getUserById(id);
@@ -89,6 +89,26 @@ export const getUserPosts = async (req, res) => {
       userPicUrl: userData.pic_url,
       userPosts,
     };
+    return res.json(pageBody);
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .send('Something went wrong when trying to search the posts.');
+  }
+};
+
+export const getTagPosts = async (req, res) => {
+  const { hashtag } = req.params;
+
+  try {
+    const tagPosts = await postsRepository.getTagPosts(hashtag);
+
+    const pageBody = {
+      hashtag: hashtag,
+      tagPosts,
+    };
+    
     return res.json(pageBody);
   } catch (error) {
     console.error(error);
