@@ -4,6 +4,7 @@ import {
   postsRepository,
   usersRepository,
   tagsRepository,
+  urlsRepository,
 } from '../repositories/index.js';
 
 // Locally used functions
@@ -12,9 +13,9 @@ const getUrlMetadata = async (link) => {
   const { url, title, image, description } = await urlMetadata(link, {
     descriptionLength: 50,
   });
-  let urlInfo = await postsRepository.getUrlByUrl(url);
+  let urlInfo = await urlsRepository.getUrlByUrl(url);
   if (!urlInfo) {
-    urlInfo = await postsRepository.createUrl(url, title, image, description);
+    urlInfo = await urlsRepository.createUrl(url, title, image, description);
   }
 
   return urlInfo;
