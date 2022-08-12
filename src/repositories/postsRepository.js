@@ -104,3 +104,16 @@ export const deletePostById = async (id) => {
   );
   return posts[0];
 };
+
+export const editPostById = async (postId, content, urlId) => {
+  const { rows: post } = await connection.query(
+    `
+      UPDATE posts
+      SET content = $2, url_id = $3
+      WHERE id = $1
+      RETURNING *
+    `,
+    [postId, content, urlId]
+  );
+  return post[0];
+};
