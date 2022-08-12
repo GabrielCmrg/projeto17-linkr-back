@@ -63,7 +63,6 @@ export const sendPost = async (req, res) => {
     );
     if (content) {
       const tags = extractTags(content);
-
       if (tags) await processTags(tags, createdPost.id);
     }
     return res.status(201).send('Post created!');
