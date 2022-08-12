@@ -126,3 +126,39 @@ export const deletePost = async (req, res) => {
       .send('Something went wrong when trying to delete the post.');
   }
 };
+
+export const editPost = async (req, res) => {
+  const { content, postLink } = res.locals.post;
+  const { id, userId } = res.locals;
+  try {
+    // Guarantees that there is a post to edit and if the user is the owner
+    const originalPost = await postsRepository.getPostById(id);
+    if (!originalPost) {
+      return res.status(404).send('Post not found.');
+    }
+    if (originalPost.author_id !== userId) {
+      return res.sendStatus(401);
+    }
+
+    // make the update
+    const urlInfo = await getUrlMetadata(postLink);
+    await postsRepository.editPostById(id, content, urlInfo.id);
+
+    await urlsRepository.clearUnmentionedUrls();
+
+    // clears old tag mentions process new ones and delete unused tags
+    await tagsRepository.deletePostMentions(id);
+    if (content) {
+      const tags = extractTags(content);
+      if (tags) await processTags(tags, id);
+    }
+    await tagsRepository.clearUnmentionedTags();
+
+    return res.status(200).send('Post edited!');
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .send('Something went wrong when trying to edit a post.');
+  }
+};
