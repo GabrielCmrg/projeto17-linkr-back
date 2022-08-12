@@ -141,6 +141,30 @@ If you send the header incorrectly it will respond with 422 status code. If your
 }
 ```
 
+#### Get user Timeline
+
+You can get the user Timeline by making a GET request to route `/hashtag/:hashtag` with authentication header, where `:hashtag` is the tag you want to see the Timeline.
+
+If your token is invalid returns 401. If anything breaks internally returns 500. Otherwise returns 200 with a object like
+
+```js
+{
+  hashtag,
+  tagPosts: [
+    {
+      id, // int, post id
+      name, // string, post owner
+      pic_url, // url, profile picture
+      content, // string, post description
+      link_url, // url, link published
+      link_title, // string, title of the link
+      link_image, // url, link preview
+      link_description, // string
+    },
+  ],
+}
+```
+
 #### Edit a post
 
 You can edit a post by making a PUT request to `/posts/:id` where this id is the post id. It returns the same status codes as in send post, and needs the same object to make de uptade.
