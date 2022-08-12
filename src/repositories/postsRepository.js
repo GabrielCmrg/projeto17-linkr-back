@@ -48,13 +48,15 @@ export const getUserPosts = async (userId) => {
 };
 
 export const createPost = async (userId, content, urlId) => {
-  await connection.query(
+  const { rows: post } = await connection.query(
     `
       INSERT INTO posts(author_id, content, url_id)
       VALUES ($1, $2, $3)
+      RETURNING *
     `,
     [userId, content, urlId]
   );
+  return post[0];
 };
 
 export const createUrl = async (url, title, image, description) => {
