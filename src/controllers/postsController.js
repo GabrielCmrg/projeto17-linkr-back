@@ -40,7 +40,8 @@ const processTags = async (tags, postId) => {
 
 export const getTimelinePosts = async (req, res) => {
   try {
-    const posts = await postsRepository.getPosts();
+    const { userId } = res.locals;
+    const posts = await postsRepository.getPosts(userId);
     return res.json(posts);
   } catch (error) {
     console.error(error);
@@ -62,7 +63,7 @@ export const sendPost = async (req, res) => {
     );
     if (content) {
       const tags = extractTags(content);
-      await processTags(tags, createdPost.id);
+      if (tags) await processTags(tags, createdPost.id);
     }
     return res.status(201).send('Post created!');
   } catch (error) {

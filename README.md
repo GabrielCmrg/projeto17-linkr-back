@@ -95,6 +95,7 @@ If you send the header incorrectly it will respond with 422 status code. If your
       link_title, // string, title of the link
       link_image, // url, link preview
       link_description, // string
+      userAuthorship, // boolean
     },
   ];
 }
