@@ -22,3 +22,9 @@ export const getTagByName = async (tagName) => {
   );
   return tag[0];
 };
+
+export const deletePostMentions = async (postId) => {
+  await connection.query('DELETE FROM tags_mentions WHERE post_id = $1', [
+    postId,
+  ]);
+};

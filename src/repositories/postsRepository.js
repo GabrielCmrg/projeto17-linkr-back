@@ -105,12 +105,6 @@ export const deletePostById = async (id) => {
   return posts[0];
 };
 
-export const deletePostMentions = async (postId) => {
-  await connection.query('DELETE FROM tags_mentions WHERE post_id = $1', [
-    postId,
-  ]);
-};
-
 export const editPostById = async (postId, content, urlId) => {
   const { rows: post } = await connection.query(
     `
