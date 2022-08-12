@@ -74,7 +74,7 @@ export const deletePost = async (req, res) => {
       return res.sendStatus(401);
     }
 
-    await postsRepository.deletePost(id);
+    await postsRepository.deletePostById(id);
     return res.sendStatus(200);
   } catch (error) {
     console.error(error);

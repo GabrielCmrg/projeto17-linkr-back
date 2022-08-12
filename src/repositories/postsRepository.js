@@ -91,7 +91,7 @@ export const getPostById = async (id) => {
   return posts[0];
 };
 
-export const deletePost = async (id) => {
+export const deletePostById = async (id) => {
   const { rows: posts } = await connection.query(
     `
     DELETE FROM posts
