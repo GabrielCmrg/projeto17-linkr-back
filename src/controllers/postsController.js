@@ -59,3 +59,27 @@ export const getUserPosts = async (req, res) => {
       .send('Something went wrong when trying to search the posts.');
   }
 };
+
+export const deletePost = async (req, res) => {
+  const { id, userId } = res.locals;
+
+  try {
+    const postData = await postsRepository.getPostById(id);
+
+    if (!postData) {
+      return res.status(404).send('Post not found.');
+    }
+
+    if (postData.author_id !== userId) {
+      return res.sendStatus(401);
+    }
+
+    await postsRepository.deletePostById(id);
+    return res.sendStatus(200);
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .send('Something went wrong when trying to delete the post.');
+  }
+};

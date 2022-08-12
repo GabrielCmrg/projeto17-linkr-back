@@ -79,3 +79,25 @@ export const getUrlByUrl = async (url) => {
   );
   return urlMetadata[0];
 };
+
+export const getPostById = async (id) => {
+  const { rows: posts } = await connection.query(
+    `
+    SELECT * FROM posts
+    WHERE id = $1 
+    `,
+    [id]
+  );
+  return posts[0];
+};
+
+export const deletePostById = async (id) => {
+  const { rows: posts } = await connection.query(
+    `
+    DELETE FROM posts
+    WHERE id = $1 
+    `,
+    [id]
+  );
+  return posts[0];
+};
