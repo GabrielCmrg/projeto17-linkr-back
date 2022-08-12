@@ -116,6 +116,8 @@ export const deletePost = async (req, res) => {
 
     await tagsRepository.deletePostMentions(id);
     await postsRepository.deletePostById(id);
+    await tagsRepository.clearUnmentionedTags();
+    await urlsRepository.clearUnmentionedUrls();
     return res.sendStatus(200);
   } catch (error) {
     console.error(error);
