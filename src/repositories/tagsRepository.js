@@ -22,3 +22,12 @@ export const getTagByName = async (tagName) => {
   );
   return tag[0];
 };
+
+export const getTags = async () => {
+  const { rows: tag } = await connection.query(`
+  SELECT tags.name, COUNT(tag_mentions.id) AS total 
+  FROM tags JOIN tag_mentions ON tags.id=tag_mentions.tag_id 
+  GROUP BY tags.name;
+  `);
+  return tag;
+};
