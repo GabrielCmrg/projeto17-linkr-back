@@ -77,10 +77,11 @@ export const sendPost = async (req, res) => {
 
 export const getUserPosts = async (req, res) => {
   const { id } = req.params;
+  const { userId } = res.locals;
 
   try {
     const userData = await usersRepository.getUserById(id);
-    const userPosts = await postsRepository.getUserPosts(id);
+    const userPosts = await postsRepository.getUserPosts(id, userId);
 
     if (!userData) {
       return res.status(404).send('User not found.');
@@ -102,9 +103,10 @@ export const getUserPosts = async (req, res) => {
 
 export const getTagPosts = async (req, res) => {
   const { hashtag } = req.params;
+  const { userId } = res.locals;
 
   try {
-    const tagPosts = await postsRepository.getTagPosts(hashtag);
+    const tagPosts = await postsRepository.getTagPosts(hashtag, userId);
 
     const pageBody = {
       hashtag: hashtag,

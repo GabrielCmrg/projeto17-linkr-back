@@ -24,7 +24,7 @@ export const getPosts = async (id) => {
   return posts;
 };
 
-export const getUserPosts = async (userId) => {
+export const getUserPosts = async (id, userId) => {
   const { rows: posts } = await connection.query(
     `
       SELECT
@@ -35,7 +35,8 @@ export const getUserPosts = async (userId) => {
         ur.url as link_url,
         ur.title as link_title,
         ur.image as link_image,
-        ur.description as link_description 
+        ur.description as link_description, 
+        p.author_id = $2 as userAuthorship
       FROM posts p 
       JOIN users us ON us.id = p.author_id
       JOIN urls ur ON ur.id = p.url_id
@@ -43,12 +44,13 @@ export const getUserPosts = async (userId) => {
       ORDER BY p.id DESC
       LIMIT 20
     `,
-    [userId]
+    [id, userId]
   );
+  
   return posts;
 };
 
-export const getTagPosts = async (hashtag) => {
+export const getTagPosts = async (hashtag, userId) => {
   const { rows: posts } = await connection.query(
     `
       SELECT
@@ -59,7 +61,8 @@ export const getTagPosts = async (hashtag) => {
         ur.url as link_url,
         ur.title as link_title,
         ur.image as link_image,
-        ur.description as link_description 
+        ur.description as link_description, 
+        p.author_id = $2 as userAuthorship 
       FROM posts p 
       JOIN users us ON us.id = p.author_id
       JOIN urls ur ON ur.id = p.url_id
@@ -69,7 +72,7 @@ export const getTagPosts = async (hashtag) => {
       ORDER BY p.id DESC
       LIMIT 20
     `,
-    [hashtag]
+    [hashtag, userId]
   );
   return posts;
 };

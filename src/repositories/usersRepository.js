@@ -13,7 +13,6 @@ export const getUserById = async (userId) => {
     'SELECT * FROM users u WHERE u.id = $1',
     [userId]
   );
-  console.log(user)
   return user[0];
 };
 
