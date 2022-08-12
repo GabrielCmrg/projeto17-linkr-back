@@ -7,6 +7,6 @@ export const getAllTagsMentioned = async (req, res) => {
   } catch (error) {
     return res
       .status(500)
-      .send('Something went wrong when trying to get the timeline posts.');
+      .send('Something went wrong when trying to get the trending hashtags.');
   }
 };
