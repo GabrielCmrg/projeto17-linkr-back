@@ -95,6 +95,7 @@ If you send the header incorrectly it will respond with 422 status code. If your
       link_title, // string, title of the link
       link_image, // url, link preview
       link_description, // string
+      userAuthorship, // boolean
     },
   ];
 }
@@ -139,3 +140,7 @@ If you send the header incorrectly it will respond with 422 status code. If your
   ],
 }
 ```
+
+#### Edit a post
+
+You can edit a post by making a PUT request to `/posts/:id` where this id is the post id. It returns the same status codes as in send post, and needs the same object to make de uptade.

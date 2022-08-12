@@ -4,6 +4,7 @@ import {
   postsRepository,
   usersRepository,
   tagsRepository,
+  urlsRepository,
 } from '../repositories/index.js';
 
 // Locally used functions
@@ -12,9 +13,9 @@ const getUrlMetadata = async (link) => {
   const { url, title, image, description } = await urlMetadata(link, {
     descriptionLength: 50,
   });
-  let urlInfo = await postsRepository.getUrlByUrl(url);
+  let urlInfo = await urlsRepository.getUrlByUrl(url);
   if (!urlInfo) {
-    urlInfo = await postsRepository.createUrl(url, title, image, description);
+    urlInfo = await urlsRepository.createUrl(url, title, image, description);
   }
 
   return urlInfo;
@@ -40,7 +41,8 @@ const processTags = async (tags, postId) => {
 
 export const getTimelinePosts = async (req, res) => {
   try {
-    const posts = await postsRepository.getPosts();
+    const { userId } = res.locals;
+    const posts = await postsRepository.getPosts(userId);
     return res.json(posts);
   } catch (error) {
     console.error(error);
@@ -62,7 +64,7 @@ export const sendPost = async (req, res) => {
     );
     if (content) {
       const tags = extractTags(content);
-      await processTags(tags, createdPost.id);
+      if (tags) await processTags(tags, createdPost.id);
     }
     return res.status(201).send('Post created!');
   } catch (error) {
@@ -132,12 +134,51 @@ export const deletePost = async (req, res) => {
       return res.sendStatus(401);
     }
 
+    await tagsRepository.deletePostMentions(id);
     await postsRepository.deletePostById(id);
+    await tagsRepository.clearUnmentionedTags();
+    await urlsRepository.clearUnmentionedUrls();
     return res.sendStatus(200);
   } catch (error) {
     console.error(error);
     return res
       .status(500)
       .send('Something went wrong when trying to delete the post.');
+  }
+};
+
+export const editPost = async (req, res) => {
+  const { content, postLink } = res.locals.post;
+  const { id, userId } = res.locals;
+  try {
+    // Guarantees that there is a post to edit and if the user is the owner
+    const originalPost = await postsRepository.getPostById(id);
+    if (!originalPost) {
+      return res.status(404).send('Post not found.');
+    }
+    if (originalPost.author_id !== userId) {
+      return res.sendStatus(401);
+    }
+
+    // make the update
+    const urlInfo = await getUrlMetadata(postLink);
+    await postsRepository.editPostById(id, content, urlInfo.id);
+
+    await urlsRepository.clearUnmentionedUrls();
+
+    // clears old tag mentions process new ones and delete unused tags
+    await tagsRepository.deletePostMentions(id);
+    if (content) {
+      const tags = extractTags(content);
+      if (tags) await processTags(tags, id);
+    }
+    await tagsRepository.clearUnmentionedTags();
+
+    return res.status(200).send('Post edited!');
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .send('Something went wrong when trying to edit a post.');
   }
 };

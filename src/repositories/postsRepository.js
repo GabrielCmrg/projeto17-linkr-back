@@ -1,23 +1,24 @@
 import connection from '../databases/postgres.js';
 
-export const getPosts = async () => {
+export const getPosts = async (id) => {
   const { rows: posts } = await connection.query(
     `
-      SELECT 
-        posts.id,
-        users.name,
-        users.pic_url,
-        posts.content,
-        urls.url as link_url,
-        urls.title as link_title,
-        urls.image as link_image,
-        urls.description as link_description 
-      FROM posts
-      JOIN users ON users.id = posts.author_id
-      JOIN urls ON posts.url_id = urls.id
-      ORDER BY id DESC
-      LIMIT 20
-    `
+    SELECT 
+    posts.id,
+    users.name,
+    users.pic_url,
+    posts.content,
+    urls.url as link_url,
+    urls.title as link_title,
+    urls.image as link_image,
+    urls.description as link_description,
+    posts.author_id = $1 as userAuthorship
+  FROM posts
+  JOIN users ON users.id = posts.author_id
+  JOIN urls ON posts.url_id = urls.id
+  ORDER BY id DESC
+  LIMIT 20`,
+    [id]
   );
 
   return posts;
@@ -85,29 +86,6 @@ export const createPost = async (userId, content, urlId) => {
   return post[0];
 };
 
-export const createUrl = async (url, title, image, description) => {
-  const { rows: urlMetadata } = await connection.query(
-    `
-      INSERT INTO urls(url, title, image, description)
-      VALUES ($1, $2, $3, $4)
-      RETURNING *
-    `,
-    [url, title, image, description]
-  );
-  return urlMetadata[0];
-};
-
-export const getUrlByUrl = async (url) => {
-  const { rows: urlMetadata } = await connection.query(
-    `
-      SELECT * FROM urls
-      WHERE url = $1
-    `,
-    [url]
-  );
-  return urlMetadata[0];
-};
-
 export const getPostById = async (id) => {
   const { rows: posts } = await connection.query(
     `
@@ -128,4 +106,17 @@ export const deletePostById = async (id) => {
     [id]
   );
   return posts[0];
+};
+
+export const editPostById = async (postId, content, urlId) => {
+  const { rows: post } = await connection.query(
+    `
+      UPDATE posts
+      SET content = $2, url_id = $3
+      WHERE id = $1
+      RETURNING *
+    `,
+    [postId, content, urlId]
+  );
+  return post[0];
 };

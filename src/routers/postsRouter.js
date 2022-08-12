@@ -37,5 +37,12 @@ postsRouter.delete(
   postsMiddlewares.checkReqParams,
   postsController.deletePost
 );
+postsRouter.put(
+  '/posts/:id',
+  authMiddlewares.tokenValidation,
+  postsMiddlewares.checkSendPostBody,
+  postsMiddlewares.checkReqParams,
+  postsController.editPost
+);
 
 export default postsRouter;
