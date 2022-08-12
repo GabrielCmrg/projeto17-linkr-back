@@ -28,3 +28,9 @@ export const deletePostMentions = async (postId) => {
     postId,
   ]);
 };
+
+export const clearUnmentionedTags = async () => {
+  await connection.query(
+    'DELETE FROM tags WHERE id NOT IN (SELECT tag_id FROM tag_mentions)'
+  );
+};
