@@ -136,6 +136,7 @@ If you send the header incorrectly it will respond with 422 status code. If your
       link_title, // string, title of the link
       link_image, // url, link preview
       link_description, // string
+      userAuthorship // boolean
     },
   ],
 }
@@ -160,6 +161,7 @@ If your token is invalid returns 401. If anything breaks internally returns 500.
       link_title, // string, title of the link
       link_image, // url, link preview
       link_description, // string
+      userAuthorship // boolean
     },
   ],
 }
