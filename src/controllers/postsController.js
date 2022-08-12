@@ -109,7 +109,7 @@ export const getTagPosts = async (req, res) => {
     const tagPosts = await postsRepository.getTagPosts(hashtag, userId);
 
     const pageBody = {
-      hashtag: hashtag,
+      hashtag,
       tagPosts,
     };
     
