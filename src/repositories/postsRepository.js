@@ -51,6 +51,7 @@ export const getUserPosts = async (id, userId) => {
 };
 
 export const getTagPosts = async (hashtag, userId) => {
+  const searchHashtag = "#" + hashtag
   const { rows: posts } = await connection.query(
     `
       SELECT
@@ -72,7 +73,7 @@ export const getTagPosts = async (hashtag, userId) => {
       ORDER BY p.id DESC
       LIMIT 20
     `,
-    [hashtag, userId]
+    [searchHashtag, userId]
   );
   return posts;
 };
