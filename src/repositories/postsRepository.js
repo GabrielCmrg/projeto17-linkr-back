@@ -24,7 +24,7 @@ export const getPosts = async (id) => {
   return posts;
 };
 
-export const getUserPosts = async (userId) => {
+export const getUserPosts = async (id, userId) => {
   const { rows: posts } = await connection.query(
     `
       SELECT
@@ -35,15 +35,44 @@ export const getUserPosts = async (userId) => {
         ur.url as link_url,
         ur.title as link_title,
         ur.image as link_image,
-        ur.description as link_description 
+        ur.description as link_description, 
+        p.author_id = $2 as userAuthorship
       FROM posts p 
       JOIN users us ON us.id = p.author_id
       JOIN urls ur ON ur.id = p.url_id
       WHERE p.author_id = $1 
-      ORDER BY id DESC
+      ORDER BY p.id DESC
       LIMIT 20
     `,
-    [userId]
+    [id, userId]
+  );
+  
+  return posts;
+};
+
+export const getTagPosts = async (hashtag, userId) => {
+  const { rows: posts } = await connection.query(
+    `
+      SELECT
+        p.id,
+        us.name,
+        us.pic_url,
+        p.content,
+        ur.url as link_url,
+        ur.title as link_title,
+        ur.image as link_image,
+        ur.description as link_description, 
+        p.author_id = $2 as userAuthorship 
+      FROM posts p 
+      JOIN users us ON us.id = p.author_id
+      JOIN urls ur ON ur.id = p.url_id
+      JOIN tag_mentions tm ON tm.post_id = p.id
+      JOIN tags t ON t.id = tm.tag_id
+      WHERE t.name ILIKE $1
+      ORDER BY p.id DESC
+      LIMIT 20
+    `,
+    [hashtag, userId]
   );
   return posts;
 };
@@ -58,29 +87,6 @@ export const createPost = async (userId, content, urlId) => {
     [userId, content, urlId]
   );
   return post[0];
-};
-
-export const createUrl = async (url, title, image, description) => {
-  const { rows: urlMetadata } = await connection.query(
-    `
-      INSERT INTO urls(url, title, image, description)
-      VALUES ($1, $2, $3, $4)
-      RETURNING *
-    `,
-    [url, title, image, description]
-  );
-  return urlMetadata[0];
-};
-
-export const getUrlByUrl = async (url) => {
-  const { rows: urlMetadata } = await connection.query(
-    `
-      SELECT * FROM urls
-      WHERE url = $1
-    `,
-    [url]
-  );
-  return urlMetadata[0];
 };
 
 export const getPostById = async (id) => {
@@ -103,4 +109,17 @@ export const deletePostById = async (id) => {
     [id]
   );
   return posts[0];
+};
+
+export const editPostById = async (postId, content, urlId) => {
+  const { rows: post } = await connection.query(
+    `
+      UPDATE posts
+      SET content = $2, url_id = $3
+      WHERE id = $1
+      RETURNING *
+    `,
+    [postId, content, urlId]
+  );
+  return post[0];
 };

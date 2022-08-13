@@ -9,7 +9,7 @@ export const createUser = async (userObject) => {
 };
 
 export const getUserById = async (userId) => {
-  const { rows: user } = connection.query(
+  const { rows: user } = await connection.query(
     'SELECT * FROM users u WHERE u.id = $1',
     [userId]
   );

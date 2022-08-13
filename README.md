@@ -118,7 +118,7 @@ If you send the header or body incorrectly it will respond with 422 status code.
 
 #### Get user Timeline
 
-You can get the user Timeline by making a GET request to route `/users/:id` with authentication header, where `id` is the id of the user you want to see the Timeline.
+You can get the user Timeline by making a GET request to route `/user/:id` with authentication header, where `id` is the id of the user you want to see the Timeline.
 
 If you send the header incorrectly it will respond with 422 status code. If your token is invalid returns 401. If you send a id that is not a number return 400. If anything breaks internally returns 500. Otherwise returns 200 with a object like
 
@@ -136,7 +136,37 @@ If you send the header incorrectly it will respond with 422 status code. If your
       link_title, // string, title of the link
       link_image, // url, link preview
       link_description, // string
+      userAuthorship // boolean
     },
   ],
 }
 ```
+
+#### Get tag Timeline
+
+You can get the tag Timeline by making a GET request to route `/hashtag/:hashtag` with authentication header, where `:hashtag` is the tag you want to see the Timeline.
+
+If your token is invalid returns 401. If anything breaks internally returns 500. Otherwise returns 200 with a object like
+
+```js
+{
+  hashtag,
+  tagPosts: [
+    {
+      id, // int, post id
+      name, // string, post owner
+      pic_url, // url, profile picture
+      content, // string, post description
+      link_url, // url, link published
+      link_title, // string, title of the link
+      link_image, // url, link preview
+      link_description, // string
+      userAuthorship // boolean
+    },
+  ],
+}
+```
+
+#### Edit a post
+
+You can edit a post by making a PUT request to `/posts/:id` where this id is the post id. It returns the same status codes as in send post, and needs the same object to make de uptade.

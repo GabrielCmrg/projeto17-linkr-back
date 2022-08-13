@@ -23,6 +23,7 @@ export const getTagByName = async (tagName) => {
   return tag[0];
 };
 
+
 export const getTags = async () => {
   const { rows: tags } = await connection.query(`
   SELECT tags.name, COUNT(tag_mentions.id) AS total 
@@ -31,4 +32,16 @@ export const getTags = async () => {
   ORDER BY total DESC
   `);
   return tags;
+}
+
+export const deletePostMentions = async (postId) => {
+  await connection.query('DELETE FROM tags_mentions WHERE post_id = $1', [
+    postId,
+  ]);
+};
+
+export const clearUnmentionedTags = async () => {
+  await connection.query(
+    'DELETE FROM tags WHERE id NOT IN (SELECT tag_id FROM tag_mentions)'
+  );
 };
