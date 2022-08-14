@@ -46,7 +46,7 @@ export const getUserPosts = async (id, userId) => {
     `,
     [id, userId]
   );
-  
+
   return posts;
 };
 
@@ -122,4 +122,15 @@ export const editPostById = async (postId, content, urlId) => {
     [postId, content, urlId]
   );
   return post[0];
+};
+export const createPostLike = async (postId, userId) => {
+  const { rows: like } = await connection.query(
+    `
+    INSERT INTO post_likes(post_id, user_id)
+    VALUES($1,$2)
+  
+    `,
+    [postId, userId]
+  );
+  return like[0];
 };

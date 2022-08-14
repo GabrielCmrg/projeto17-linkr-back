@@ -112,7 +112,7 @@ export const getTagPosts = async (req, res) => {
       hashtag,
       tagPosts,
     };
-    
+
     return res.json(pageBody);
   } catch (error) {
     console.error(error);
@@ -182,5 +182,20 @@ export const editPost = async (req, res) => {
     return res
       .status(500)
       .send('Something went wrong when trying to edit a post.');
+  }
+};
+export const postlike = async (req, res) => {
+  const { userId } = res.locals;
+  const { postId } = req.body;
+  console.log(userId);
+  console.log(postId);
+  try {
+    await postsRepository.createPostLike(postId, userId);
+    return res.sendStatus(201);
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .send('Something went wrong when trying to like a post');
   }
 };

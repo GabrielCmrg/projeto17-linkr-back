@@ -45,4 +45,10 @@ postsRouter.put(
   postsController.editPost
 );
 
+postsRouter.post(
+  '/like',
+  authMiddlewares.tokenValidation,
+  postsController.postlike
+);
+
 export default postsRouter;
