@@ -184,18 +184,30 @@ export const editPost = async (req, res) => {
       .send('Something went wrong when trying to edit a post.');
   }
 };
-export const postlike = async (req, res) => {
+export const postLike = async (req, res) => {
   const { userId } = res.locals;
   const { postId } = req.body;
-  console.log(userId);
-  console.log(postId);
   try {
     await postsRepository.createPostLike(postId, userId);
-    return res.sendStatus(201);
+    return res.send('like');
   } catch (error) {
     console.log(error);
     return res
       .status(500)
       .send('Something went wrong when trying to like a post');
+  }
+};
+
+export const postDisLike = async (req, res) => {
+  const { userId } = res.locals;
+  const { postId } = req.params;
+  try {
+    await postsRepository.createPostDislike(postId, userId);
+    return res.send('dislike');
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .send('Something went wrong when trying to dislike a post');
   }
 };
