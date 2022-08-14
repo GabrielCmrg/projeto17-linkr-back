@@ -51,4 +51,6 @@ postsRouter.post(
   postsController.postlike
 );
 
+postsRouter.delete('/like', authMiddlewares.tokenValidation);
+
 export default postsRouter;
