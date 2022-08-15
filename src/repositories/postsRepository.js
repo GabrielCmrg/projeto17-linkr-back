@@ -6,6 +6,7 @@ export const getPosts = async (id) => {
     SELECT
     posts.id,
     users.name,
+    posts.author_id,
     users.pic_url,
     posts.content,
     urls.url AS link_url,
@@ -21,7 +22,7 @@ export const getPosts = async (id) => {
   JOIN users ON users.id = posts.author_id
   JOIN urls ON posts.url_id = urls.id
   LEFT JOIN post_likes ON post_likes.post_id = posts.id
-  GROUP BY posts.id, users.name, users.pic_url, posts.content, urls.url, urls.title, urls.image, urls.description, userAuthorship, userLiked, firstLike, secondLike
+  GROUP BY posts.id, users.name, posts.author_id, users.pic_url, posts.content, urls.url, urls.title, urls.image, urls.description, userAuthorship, userLiked, firstLike, secondLike
   ORDER BY posts.id DESC
   LIMIT 20`,
     [id]
@@ -36,6 +37,7 @@ export const getUserPosts = async (id, userId) => {
       SELECT
         p.id,
         us.name,
+        posts.author_id,
         us.pic_url,
         p.content,
         ur.url as link_url,
@@ -52,7 +54,7 @@ export const getUserPosts = async (id, userId) => {
       JOIN urls ur ON ur.id = p.url_id 
       LEFT JOIN post_likes ON post_likes.post_id = posts.id 
       WHERE p.author_id = $1 
-      GROUP BY posts.id, users.name, users.pic_url, posts.content, urls.url, urls.title, urls.image, urls.description, userAuthorship, userLiked, firstLike, secondLike 
+      GROUP BY posts.id, users.name, posts.author_id, users.pic_url, posts.content, urls.url, urls.title, urls.image, urls.description, userAuthorship, userLiked, firstLike, secondLike 
       ORDER BY p.id DESC
       LIMIT 20
     `,
@@ -69,6 +71,7 @@ export const getTagPosts = async (hashtag, userId) => {
       SELECT
         p.id,
         us.name,
+        posts.author_id,
         us.pic_url,
         p.content,
         ur.url as link_url,
@@ -86,7 +89,7 @@ export const getTagPosts = async (hashtag, userId) => {
       JOIN tag_mentions tm ON tm.post_id = p.id
       JOIN tags t ON t.id = tm.tag_id
       WHERE t.name ILIKE $1
-      GROUP BY posts.id, users.name, users.pic_url, posts.content, urls.url, urls.title, urls.image, urls.description, userAuthorship, userLiked, firstLike, secondLike 
+      GROUP BY posts.id, users.name, posts.author_id, users.pic_url, posts.content, urls.url, urls.title, urls.image, urls.description, userAuthorship, userLiked, firstLike, secondLike 
       ORDER BY p.id DESC
       LIMIT 20
     `,
