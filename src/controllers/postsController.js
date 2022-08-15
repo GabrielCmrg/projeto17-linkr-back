@@ -112,7 +112,7 @@ export const getTagPosts = async (req, res) => {
       hashtag,
       tagPosts,
     };
-    
+
     return res.json(pageBody);
   } catch (error) {
     console.error(error);
@@ -182,5 +182,32 @@ export const editPost = async (req, res) => {
     return res
       .status(500)
       .send('Something went wrong when trying to edit a post.');
+  }
+};
+export const postLike = async (req, res) => {
+  const { userId } = res.locals;
+  const { postId } = req.body;
+  try {
+    await postsRepository.createPostLike(postId, userId);
+    return res.send('like');
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .send('Something went wrong when trying to like a post');
+  }
+};
+
+export const postDisLike = async (req, res) => {
+  const { userId } = res.locals;
+  const { postId } = req.params;
+  try {
+    await postsRepository.createPostDislike(postId, userId);
+    return res.send('dislike');
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .send('Something went wrong when trying to dislike a post');
   }
 };
