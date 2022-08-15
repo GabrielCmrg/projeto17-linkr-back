@@ -23,3 +23,11 @@ export const getUserByEmail = async (email) => {
   );
   return user[0];
 };
+
+export const getUsersByName = async (search) => {
+  const { rows: users } = await connection.query(
+    `SELECT id, name, pic_url FROM users WHERE name ILIKE $1||'%'`,
+    [search]
+  );
+  return users;
+};

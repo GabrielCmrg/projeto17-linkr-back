@@ -42,3 +42,17 @@ export const loginUser = async (req, res) => {
       .send('Something went wrong when trying to search the user.');
   }
 };
+
+export const getUsersByName = async (req, res) => {
+  const { search } = req.body;
+  try {
+    const users = await usersRepository.getUsersByName(search);
+
+    return res.json(users);
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .send('Something went wrong when trying to search the users.');
+  }
+};
