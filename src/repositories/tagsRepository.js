@@ -34,7 +34,7 @@ export const getTags = async () => {
 };
 
 export const deletePostMentions = async (postId) => {
-  await connection.query('DELETE FROM tags_mentions WHERE post_id = $1', [
+  await connection.query('DELETE FROM tag_mentions WHERE post_id = $1', [
     postId,
   ]);
 };
