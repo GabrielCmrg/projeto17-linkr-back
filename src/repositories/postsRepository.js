@@ -164,3 +164,15 @@ export const createPostDislike = async (postId, userId) => {
   );
   return dislike;
 };
+
+export const deleteAllLikesFromThepost = async(postId) =>{
+  const { rows: deleteLikes } = await connection.query(
+    `
+    DELETE FROM post_likes
+    WHERE post_id = $1 
+    
+    `,
+    [postId]
+  );
+    return deleteLikes;
+};

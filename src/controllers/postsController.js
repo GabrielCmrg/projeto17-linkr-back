@@ -126,6 +126,7 @@ export const deletePost = async (req, res) => {
   const { id, userId } = res.locals;
 
   try {
+    
     const postData = await postsRepository.getPostById(id);
 
     if (!postData) {
@@ -136,6 +137,7 @@ export const deletePost = async (req, res) => {
       return res.sendStatus(401);
     }
 
+    await postsRepository.deleteAllLikesFromThepost(id);
     await tagsRepository.deletePostMentions(id);
     await postsRepository.deletePostById(id);
     await tagsRepository.clearUnmentionedTags();
@@ -201,6 +203,7 @@ export const postLike = async (req, res) => {
 export const postDisLike = async (req, res) => {
   const { userId } = res.locals;
   const { postId } = req.params;
+
   try {
     await postsRepository.createPostDislike(postId, userId);
     return res.send('dislike');
