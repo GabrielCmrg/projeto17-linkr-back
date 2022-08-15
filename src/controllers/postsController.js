@@ -110,7 +110,7 @@ export const getTagPosts = async (req, res) => {
 
     const pageBody = {
       hashtag,
-      tagPosts,
+      tagPosts
     };
 
     return res.json(pageBody);
