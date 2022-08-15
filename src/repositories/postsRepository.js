@@ -43,10 +43,16 @@ export const getUserPosts = async (id, userId) => {
         ur.image as link_image,
         ur.description as link_description, 
         p.author_id = $2 as userAuthorship,
+        COUNT(post_likes.id) as likes_amount,
+        $2 IN (SELECT user_id FROM post_likes WHERE post_likes.post_id = posts.id) AS userLiked,
+        (SELECT users.name FROM post_likes JOIN users ON users.id = post_likes.user_id WHERE post_likes.user_id <> $2 AND post_likes.post_id = posts.id ORDER BY post_likes.id LIMIT 1) AS firstLike,
+        (SELECT users.name FROM post_likes JOIN users ON users.id = post_likes.user_id WHERE post_likes.user_id <> $2 AND post_likes.post_id = posts.id ORDER BY post_likes.id OFFSET 1 LIMIT 1) AS secondLike 
       FROM posts p 
-      JOIN users us ON us.id = p.author_id
-      JOIN urls ur ON ur.id = p.url_id
+      JOIN users us ON us.id = p.author_id 
+      JOIN urls ur ON ur.id = p.url_id 
+      LEFT JOIN post_likes ON post_likes.post_id = posts.id 
       WHERE p.author_id = $1 
+      GROUP BY posts.id, users.name, users.pic_url, posts.content, urls.url, urls.title, urls.image, urls.description, userAuthorship, userLiked, firstLike, secondLike 
       ORDER BY p.id DESC
       LIMIT 20
     `,
@@ -70,12 +76,17 @@ export const getTagPosts = async (hashtag, userId) => {
         ur.image as link_image,
         ur.description as link_description, 
         p.author_id = $2 as userAuthorship 
+        COUNT(post_likes.id) as likes_amount,
+        $2 IN (SELECT user_id FROM post_likes WHERE post_likes.post_id = posts.id) AS userLiked,
+        (SELECT users.name FROM post_likes JOIN users ON users.id = post_likes.user_id WHERE post_likes.user_id <> $2 AND post_likes.post_id = posts.id ORDER BY post_likes.id LIMIT 1) AS firstLike,
+        (SELECT users.name FROM post_likes JOIN users ON users.id = post_likes.user_id WHERE post_likes.user_id <> $2 AND post_likes.post_id = posts.id ORDER BY post_likes.id OFFSET 1 LIMIT 1) AS secondLike 
       FROM posts p 
       JOIN users us ON us.id = p.author_id
       JOIN urls ur ON ur.id = p.url_id
       JOIN tag_mentions tm ON tm.post_id = p.id
       JOIN tags t ON t.id = tm.tag_id
       WHERE t.name ILIKE $1
+      GROUP BY posts.id, users.name, users.pic_url, posts.content, urls.url, urls.title, urls.image, urls.description, userAuthorship, userLiked, firstLike, secondLike 
       ORDER BY p.id DESC
       LIMIT 20
     `,
