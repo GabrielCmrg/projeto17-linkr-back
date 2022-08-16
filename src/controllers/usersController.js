@@ -56,3 +56,18 @@ export const getUsersByName = async (req, res) => {
       .send('Something went wrong when trying to search the users.');
   }
 };
+
+export const followUser = async (req, res) => {
+  const { followedId } = req.body;
+  const followerId = res.locals.userId
+  try {
+    await usersRepository.followUser(followedId, followerId);
+
+    return res.sendStatus(200);
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .send('Something went wrong when trying to follow user.');
+  }
+};
