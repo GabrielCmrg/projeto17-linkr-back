@@ -58,8 +58,16 @@ export const getUsersByName = async (req, res) => {
 };
 
 export const followUser = async (req, res) => {
-  const { followedId } = req.body;
-  const followerId = res.locals.userId
+  const followedId  = req.params.id;
+  const followerId = res.locals.userId;
+  const { followStatus } = res.locals;
+
+  if (followStatus) {
+    return res
+      .status(409)
+      .send('Follow request failed, user already followed')
+  }
+
   try {
     await usersRepository.followUser(followedId, followerId);
 
@@ -73,8 +81,16 @@ export const followUser = async (req, res) => {
 };
 
 export const unfollowUser = async (req, res) => {
-  const  followedId  = req.params.id;
-  const followerId = res.locals.userId
+  const followedId  = req.params.id;
+  const followerId = res.locals.userId;
+  const { followStatus } = res.locals;
+
+  if (followStatus) {
+    return res
+      .status(409)
+      .send('Unfollow request failed, user should already be followed')
+  }
+  
   try {
     await usersRepository.unfollowUser(followedId, followerId);
 

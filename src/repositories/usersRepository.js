@@ -45,3 +45,11 @@ export const unfollowUser = async (followed_id, follower_id) => {
     [followed_id, follower_id]
   );
 };
+
+export const checkFollowStatus = async (followed_id, follower_id) => {
+  const { rows: followStatus } = await connection.query(
+    'SELECT * FROM follows WHERE followed_id = $1 AND follower_id = $2',
+    [followed_id, follower_id]
+  );
+  return followStatus[0];
+};
