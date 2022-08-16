@@ -31,3 +31,17 @@ export const getUsersByName = async (search) => {
   );
   return users;
 };
+
+export const followUser = async (followed_id, follower_id) => {
+  await connection.query(
+    `INSERT INTO follows (followed_id, follower_id) VALUES ($1, $2)`,
+    [followed_id, follower_id]
+  );
+};
+
+export const unfollowUser = async (followed_id, follower_id) => {
+  await connection.query(
+    `DELETE FROM follows WHERE followed_id = $1 AND follower_id = $2`,
+    [followed_id, follower_id]
+  );
+};
