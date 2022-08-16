@@ -1,6 +1,6 @@
 import { usersRepository } from '../repositories/index.js';
 
-export const checkFollowStatus = (req, res, next) => {
+export const checkFollowStatus = async (req, res, next) => {
     const followedId  = req.params.id;
     const followerId = res.locals.userId
 
