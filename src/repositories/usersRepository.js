@@ -8,10 +8,10 @@ export const createUser = async (userObject) => {
   );
 };
 
-export const getUserById = async (userId) => {
+export const getUserById = async (id, userId) => {
   const { rows: user } = await connection.query(
-    'SELECT * FROM users u WHERE u.id = $1',
-    [userId]
+    'SELECT users.name, users.pic_url, EXISTS(SELECT * FROM follows WHERE followed_id = $1 AND follower_id = $2) as follow_status FROM users WHERE users.id = $1;',
+    [id, userId]
   );
   return user[0];
 };
