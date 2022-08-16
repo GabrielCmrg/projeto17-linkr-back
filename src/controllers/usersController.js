@@ -71,3 +71,18 @@ export const followUser = async (req, res) => {
       .send('Something went wrong when trying to follow user.');
   }
 };
+
+export const unfollowUser = async (req, res) => {
+  const  followedId  = req.params.id;
+  const followerId = res.locals.userId
+  try {
+    await usersRepository.unfollowUser(followedId, followerId);
+
+    return res.sendStatus(200);
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .send('Something went wrong when trying to unfollow user.');
+  }
+};
