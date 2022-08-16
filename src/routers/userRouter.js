@@ -16,4 +16,10 @@ userRouter.post(
   usersController.followUser,
 );
 
+userRouter.delete(
+  '/unfollowuser/:id',
+  authMiddlewares.tokenValidation,
+  usersController.unfollowUser,
+);
+
 export default userRouter;
