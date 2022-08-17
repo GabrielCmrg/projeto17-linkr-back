@@ -91,7 +91,8 @@ export const getUserPosts = async (req, res) => {
       userName: userData.name,
       userPicUrl: userData.pic_url,
       followStatus: userData.follow_status,
-      userPosts,
+      accountOwner: (id == userId),
+      userPosts
     };
     return res.json(pageBody);
   } catch (error) {
