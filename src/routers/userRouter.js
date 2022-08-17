@@ -7,6 +7,7 @@ const userRouter = express.Router();
 
 userRouter.post(
   '/searchuser',
+  authMiddlewares.tokenValidation,
   usersController.getUsersByName
 );
 

@@ -45,9 +45,9 @@ export const loginUser = async (req, res) => {
 
 export const getUsersByName = async (req, res) => {
   const { search } = req.body;
+  const { userId } = res.locals;
   try {
-    const users = await usersRepository.getUsersByName(search);
-
+    const users = await usersRepository.getUsersByName(search, userId);
     return res.json(users);
   } catch (error) {
     console.error(error);

@@ -24,10 +24,10 @@ export const getUserByEmail = async (email) => {
   return user[0];
 };
 
-export const getUsersByName = async (search) => {
+export const getUsersByName = async (search, userId) => {
   const { rows: users } = await connection.query(
-    `SELECT id, name, pic_url FROM users WHERE name ILIKE $1||'%'`,
-    [search]
+    `SELECT id, name, pic_url, EXISTS(SELECT * FROM follows WHERE followed_id = users.id AND follower_id = $2) as follow_status FROM users WHERE name ILIKE $1 ORDER BY follow_status DESC, name`,
+    [`${search}%`, userId]
   );
   return users;
 };
