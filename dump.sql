@@ -21,7 +21,42 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: post_likes; Type: TABLE; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: comments; Type: TABLE; Schema: public; Owner: tbelrlezayruhf
+--
+
+CREATE TABLE "public"."comments" (
+    "id" integer NOT NULL,
+    "comment" "text" NOT NULL,
+    "post_id" integer NOT NULL
+);
+
+
+ALTER TABLE public.comments OWNER TO tbelrlezayruhf;
+
+--
+-- Name: comments_id_seq; Type: SEQUENCE; Schema: public; Owner: tbelrlezayruhf
+--
+
+CREATE SEQUENCE "public"."comments_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.comments_id_seq OWNER TO tbelrlezayruhf;
+
+--
+-- Name: comments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: tbelrlezayruhf
+--
+
+ALTER SEQUENCE "public"."comments_id_seq" OWNED BY "public"."comments"."id";
+
+
+--
+-- Name: post_likes; Type: TABLE; Schema: public; Owner: tbelrlezayruhf
 --
 
 CREATE TABLE "public"."post_likes" (
@@ -31,10 +66,10 @@ CREATE TABLE "public"."post_likes" (
 );
 
 
-ALTER TABLE public.post_likes OWNER TO qbeaofxarsjuqj;
+ALTER TABLE public.post_likes OWNER TO tbelrlezayruhf;
 
 --
--- Name: post_likes_id_seq; Type: SEQUENCE; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: post_likes_id_seq; Type: SEQUENCE; Schema: public; Owner: tbelrlezayruhf
 --
 
 CREATE SEQUENCE "public"."post_likes_id_seq"
@@ -46,17 +81,17 @@ CREATE SEQUENCE "public"."post_likes_id_seq"
     CACHE 1;
 
 
-ALTER TABLE public.post_likes_id_seq OWNER TO qbeaofxarsjuqj;
+ALTER TABLE public.post_likes_id_seq OWNER TO tbelrlezayruhf;
 
 --
--- Name: post_likes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: post_likes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: tbelrlezayruhf
 --
 
 ALTER SEQUENCE "public"."post_likes_id_seq" OWNED BY "public"."post_likes"."id";
 
 
 --
--- Name: posts; Type: TABLE; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: posts; Type: TABLE; Schema: public; Owner: tbelrlezayruhf
 --
 
 CREATE TABLE "public"."posts" (
@@ -67,10 +102,10 @@ CREATE TABLE "public"."posts" (
 );
 
 
-ALTER TABLE public.posts OWNER TO qbeaofxarsjuqj;
+ALTER TABLE public.posts OWNER TO tbelrlezayruhf;
 
 --
--- Name: posts_id_seq; Type: SEQUENCE; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: posts_id_seq; Type: SEQUENCE; Schema: public; Owner: tbelrlezayruhf
 --
 
 CREATE SEQUENCE "public"."posts_id_seq"
@@ -82,17 +117,17 @@ CREATE SEQUENCE "public"."posts_id_seq"
     CACHE 1;
 
 
-ALTER TABLE public.posts_id_seq OWNER TO qbeaofxarsjuqj;
+ALTER TABLE public.posts_id_seq OWNER TO tbelrlezayruhf;
 
 --
--- Name: posts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: posts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: tbelrlezayruhf
 --
 
 ALTER SEQUENCE "public"."posts_id_seq" OWNED BY "public"."posts"."id";
 
 
 --
--- Name: tag_mentions; Type: TABLE; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: tag_mentions; Type: TABLE; Schema: public; Owner: tbelrlezayruhf
 --
 
 CREATE TABLE "public"."tag_mentions" (
@@ -102,10 +137,10 @@ CREATE TABLE "public"."tag_mentions" (
 );
 
 
-ALTER TABLE public.tag_mentions OWNER TO qbeaofxarsjuqj;
+ALTER TABLE public.tag_mentions OWNER TO tbelrlezayruhf;
 
 --
--- Name: tag_mentions_id_seq; Type: SEQUENCE; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: tag_mentions_id_seq; Type: SEQUENCE; Schema: public; Owner: tbelrlezayruhf
 --
 
 CREATE SEQUENCE "public"."tag_mentions_id_seq"
@@ -117,17 +152,17 @@ CREATE SEQUENCE "public"."tag_mentions_id_seq"
     CACHE 1;
 
 
-ALTER TABLE public.tag_mentions_id_seq OWNER TO qbeaofxarsjuqj;
+ALTER TABLE public.tag_mentions_id_seq OWNER TO tbelrlezayruhf;
 
 --
--- Name: tag_mentions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: tag_mentions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: tbelrlezayruhf
 --
 
 ALTER SEQUENCE "public"."tag_mentions_id_seq" OWNED BY "public"."tag_mentions"."id";
 
 
 --
--- Name: tags; Type: TABLE; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: tags; Type: TABLE; Schema: public; Owner: tbelrlezayruhf
 --
 
 CREATE TABLE "public"."tags" (
@@ -136,10 +171,10 @@ CREATE TABLE "public"."tags" (
 );
 
 
-ALTER TABLE public.tags OWNER TO qbeaofxarsjuqj;
+ALTER TABLE public.tags OWNER TO tbelrlezayruhf;
 
 --
--- Name: tags_id_seq; Type: SEQUENCE; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: tags_id_seq; Type: SEQUENCE; Schema: public; Owner: tbelrlezayruhf
 --
 
 CREATE SEQUENCE "public"."tags_id_seq"
@@ -151,17 +186,17 @@ CREATE SEQUENCE "public"."tags_id_seq"
     CACHE 1;
 
 
-ALTER TABLE public.tags_id_seq OWNER TO qbeaofxarsjuqj;
+ALTER TABLE public.tags_id_seq OWNER TO tbelrlezayruhf;
 
 --
--- Name: tags_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: tags_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: tbelrlezayruhf
 --
 
 ALTER SEQUENCE "public"."tags_id_seq" OWNED BY "public"."tags"."id";
 
 
 --
--- Name: urls; Type: TABLE; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: urls; Type: TABLE; Schema: public; Owner: tbelrlezayruhf
 --
 
 CREATE TABLE "public"."urls" (
@@ -173,10 +208,10 @@ CREATE TABLE "public"."urls" (
 );
 
 
-ALTER TABLE public.urls OWNER TO qbeaofxarsjuqj;
+ALTER TABLE public.urls OWNER TO tbelrlezayruhf;
 
 --
--- Name: urls_id_seq; Type: SEQUENCE; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: urls_id_seq; Type: SEQUENCE; Schema: public; Owner: tbelrlezayruhf
 --
 
 CREATE SEQUENCE "public"."urls_id_seq"
@@ -188,17 +223,17 @@ CREATE SEQUENCE "public"."urls_id_seq"
     CACHE 1;
 
 
-ALTER TABLE public.urls_id_seq OWNER TO qbeaofxarsjuqj;
+ALTER TABLE public.urls_id_seq OWNER TO tbelrlezayruhf;
 
 --
--- Name: urls_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: urls_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: tbelrlezayruhf
 --
 
 ALTER SEQUENCE "public"."urls_id_seq" OWNED BY "public"."urls"."id";
 
 
 --
--- Name: users; Type: TABLE; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: users; Type: TABLE; Schema: public; Owner: tbelrlezayruhf
 --
 
 CREATE TABLE "public"."users" (
@@ -210,10 +245,10 @@ CREATE TABLE "public"."users" (
 );
 
 
-ALTER TABLE public.users OWNER TO qbeaofxarsjuqj;
+ALTER TABLE public.users OWNER TO tbelrlezayruhf;
 
 --
--- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: tbelrlezayruhf
 --
 
 CREATE SEQUENCE "public"."users_id_seq"
@@ -225,157 +260,206 @@ CREATE SEQUENCE "public"."users_id_seq"
     CACHE 1;
 
 
-ALTER TABLE public.users_id_seq OWNER TO qbeaofxarsjuqj;
+ALTER TABLE public.users_id_seq OWNER TO tbelrlezayruhf;
 
 --
--- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: tbelrlezayruhf
 --
 
 ALTER SEQUENCE "public"."users_id_seq" OWNED BY "public"."users"."id";
 
 
 --
--- Name: post_likes id; Type: DEFAULT; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: comments id; Type: DEFAULT; Schema: public; Owner: tbelrlezayruhf
+--
+
+ALTER TABLE ONLY "public"."comments" ALTER COLUMN "id" SET DEFAULT "nextval"('"public"."comments_id_seq"'::"regclass");
+
+
+--
+-- Name: post_likes id; Type: DEFAULT; Schema: public; Owner: tbelrlezayruhf
 --
 
 ALTER TABLE ONLY "public"."post_likes" ALTER COLUMN "id" SET DEFAULT "nextval"('"public"."post_likes_id_seq"'::"regclass");
 
 
 --
--- Name: posts id; Type: DEFAULT; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: posts id; Type: DEFAULT; Schema: public; Owner: tbelrlezayruhf
 --
 
 ALTER TABLE ONLY "public"."posts" ALTER COLUMN "id" SET DEFAULT "nextval"('"public"."posts_id_seq"'::"regclass");
 
 
 --
--- Name: tag_mentions id; Type: DEFAULT; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: tag_mentions id; Type: DEFAULT; Schema: public; Owner: tbelrlezayruhf
 --
 
 ALTER TABLE ONLY "public"."tag_mentions" ALTER COLUMN "id" SET DEFAULT "nextval"('"public"."tag_mentions_id_seq"'::"regclass");
 
 
 --
--- Name: tags id; Type: DEFAULT; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: tags id; Type: DEFAULT; Schema: public; Owner: tbelrlezayruhf
 --
 
 ALTER TABLE ONLY "public"."tags" ALTER COLUMN "id" SET DEFAULT "nextval"('"public"."tags_id_seq"'::"regclass");
 
 
 --
--- Name: urls id; Type: DEFAULT; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: urls id; Type: DEFAULT; Schema: public; Owner: tbelrlezayruhf
 --
 
 ALTER TABLE ONLY "public"."urls" ALTER COLUMN "id" SET DEFAULT "nextval"('"public"."urls_id_seq"'::"regclass");
 
 
 --
--- Name: users id; Type: DEFAULT; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: tbelrlezayruhf
 --
 
 ALTER TABLE ONLY "public"."users" ALTER COLUMN "id" SET DEFAULT "nextval"('"public"."users_id_seq"'::"regclass");
 
 
 --
--- Data for Name: post_likes; Type: TABLE DATA; Schema: public; Owner: qbeaofxarsjuqj
+-- Data for Name: comments; Type: TABLE DATA; Schema: public; Owner: tbelrlezayruhf
+--
+
+COPY "public"."comments" ("id", "comment", "post_id") FROM stdin;
+\.
+
+
+--
+-- Data for Name: post_likes; Type: TABLE DATA; Schema: public; Owner: tbelrlezayruhf
 --
 
 COPY "public"."post_likes" ("id", "post_id", "user_id") FROM stdin;
+62	23	2
+64	18	2
+80	24	4
+81	23	4
+50	17	4
 \.
 
 
 --
--- Data for Name: posts; Type: TABLE DATA; Schema: public; Owner: qbeaofxarsjuqj
+-- Data for Name: posts; Type: TABLE DATA; Schema: public; Owner: tbelrlezayruhf
 --
 
 COPY "public"."posts" ("id", "url_id", "content", "author_id") FROM stdin;
+17	3	Ótimo artigo sobre variáveis de ambiente em #react.	2
+18	12	Artigo sobre #react hooks.	2
+23	17	Artigo sobre #Javascript da concorrência!	2
+24	18	Ótimas dicas de #display # flex para #css.	2
 \.
 
 
 --
--- Data for Name: tag_mentions; Type: TABLE DATA; Schema: public; Owner: qbeaofxarsjuqj
+-- Data for Name: tag_mentions; Type: TABLE DATA; Schema: public; Owner: tbelrlezayruhf
 --
 
 COPY "public"."tag_mentions" ("id", "post_id", "tag_id") FROM stdin;
+1	17	1
+2	18	1
+6	23	4
+7	24	5
+8	24	2
 \.
 
 
 --
--- Data for Name: tags; Type: TABLE DATA; Schema: public; Owner: qbeaofxarsjuqj
+-- Data for Name: tags; Type: TABLE DATA; Schema: public; Owner: tbelrlezayruhf
 --
 
 COPY "public"."tags" ("id", "name") FROM stdin;
+1	#react
+2	#css
+4	#Javascript
+5	#display
 \.
 
 
 --
--- Data for Name: urls; Type: TABLE DATA; Schema: public; Owner: qbeaofxarsjuqj
+-- Data for Name: urls; Type: TABLE DATA; Schema: public; Owner: tbelrlezayruhf
 --
 
 COPY "public"."urls" ("id", "url", "title", "image", "description") FROM stdin;
-2	https://rollingstone.uol.com.br/media/uploads/deadpool.jpg	\N		
 3	https://dev.to/guiselair/utilizando-variaveis-de-ambiente-com-create-react-app-5ckc	Utilizando variáveis de ambiente no ReactJS	https://dev.to/social_previews/article/541624.png	Fala clã! Tudo tranquilo? Depois de um tempo sem d
-4	https://josiaspereira.com.br/como-enviar-authorization-no-header-com-axios/	Como enviar authorization no header com Axios	https://josiaspereira.com.br/content/images/2022/01/authorizatio-com-axios.png	Axios é um cliente HTTP baseado em promessa. Para 
-5	https://blog.geekhunter.com.br/o-que-e-commit-e-como-usar-commits-semanticos/	O que &#xE9; Commit e Commits Sem&#xE2;nticos: saiba tudo!		Descubra o que é Commit e mergulhe neste conteúdo 
-6	https://brasilescola.uol.com.br/o-que-e/portugues/o-que-e-artigo.htm	O que é artigo? - Brasil Escola	https://s1.static.brasilescola.uol.com.br/be/conteudo/images/artigos-suas-classificacoes-5644ddf92b6ce.jpg	Entenda o que é artigo, seu emprego e suas classif
-7	https://trello.com/c/5GuJjox7/10-como-usu%C3%A1rio-logado-quero-ver-os-posts-da-minha-timeline-na-rota-timeline	\N		
+12	https://pt-br.reactjs.org/docs/hooks-intro.html	Introdução aos Hooks – React	https://reactjs.org/logo-og.png	A JavaScript library for building user interfaces
+17	https://blog.betrybe.com/javascript/	Javascript: o que &#xE9;, aplica&#xE7;&#xE3;o e como aprender a linguagem JS		Quer aprender tudo sobre Javascript? Confira um gu
+18	https://origamid.com/projetos/flexbox-guia-completo/	Guia completo de FlexBox - CSS - display: flex;	https://www.origamid.com/projetos/flexbox-guia-completo/guia-flexbox.png	Aprenda a utilizar o flexbox para a criação de lay
 \.
 
 
 --
--- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: qbeaofxarsjuqj
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: tbelrlezayruhf
 --
 
 COPY "public"."users" ("id", "name", "email", "password", "pic_url") FROM stdin;
 1	Clovis	email@domain.com	$2b$10$WgVki9.D4t32pzLlhWCImuEcsJkiMOecatID0.ZQtGBx8nqlX9Q/W	https://rollingstone.uol.com.br/media/uploads/deadpool.jpg
 2	Paulo	paulo@driven.com.br	$2b$10$Za85Cr.113cIUpEXvw2Yz.mOFGxcVNBFzuYE.UQkOss6NtX3x778K	https://m.extra.globo.com/incoming/833637-ea8-aa6/w367h550-PROP/careca.jpg
+3	claudia	claudia@driven.com	$2b$10$HlAQR8AxnOWzBc0T/mSP0OJvpppK5Mgx5k.Gw1Y7NpJk5g3tHRFv6	https://static1.tudosobremake.com.br/articles/9/21/15/9/@/232829-para-o-dia-da-mulher-os-6-produtos-de-m-article_media_new_3_1-4.jpg
+4	Pato	pato@gmail.com	$2b$10$8TCOb1Je2UO1WS0Dt7Bvs.vXjbCNhs9hTDOCnezifyDo/YDZznc0W	https://st.depositphotos.com/1007514/2506/i/600/depositphotos_25067721-stock-photo-mallard-duck-with-clipping-path.jpg
+5	gzin	g@g.com	$2b$10$UWmv7fBMPUa7vDI5hOCDQOC3Akawaro3MCquIgEUZTKM9nGHiBGFu	http://img4.wikia.nocookie.net/__cb20100624200028/zelda/images/9/9d/Link_Artwork_1_(Twilight_Princess).png
 \.
 
 
 --
--- Name: post_likes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: comments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tbelrlezayruhf
 --
 
-SELECT pg_catalog.setval('"public"."post_likes_id_seq"', 1, false);
-
-
---
--- Name: posts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: qbeaofxarsjuqj
---
-
-SELECT pg_catalog.setval('"public"."posts_id_seq"', 7, true);
+SELECT pg_catalog.setval('"public"."comments_id_seq"', 1, false);
 
 
 --
--- Name: tag_mentions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: post_likes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tbelrlezayruhf
 --
 
-SELECT pg_catalog.setval('"public"."tag_mentions_id_seq"', 1, false);
-
-
---
--- Name: tags_id_seq; Type: SEQUENCE SET; Schema: public; Owner: qbeaofxarsjuqj
---
-
-SELECT pg_catalog.setval('"public"."tags_id_seq"', 1, false);
+SELECT pg_catalog.setval('"public"."post_likes_id_seq"', 81, true);
 
 
 --
--- Name: urls_id_seq; Type: SEQUENCE SET; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: posts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tbelrlezayruhf
 --
 
-SELECT pg_catalog.setval('"public"."urls_id_seq"', 7, true);
-
-
---
--- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: qbeaofxarsjuqj
---
-
-SELECT pg_catalog.setval('"public"."users_id_seq"', 2, true);
+SELECT pg_catalog.setval('"public"."posts_id_seq"', 25, true);
 
 
 --
--- Name: post_likes post_likes_pkey; Type: CONSTRAINT; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: tag_mentions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tbelrlezayruhf
+--
+
+SELECT pg_catalog.setval('"public"."tag_mentions_id_seq"', 8, true);
+
+
+--
+-- Name: tags_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tbelrlezayruhf
+--
+
+SELECT pg_catalog.setval('"public"."tags_id_seq"', 5, true);
+
+
+--
+-- Name: urls_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tbelrlezayruhf
+--
+
+SELECT pg_catalog.setval('"public"."urls_id_seq"', 19, true);
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tbelrlezayruhf
+--
+
+SELECT pg_catalog.setval('"public"."users_id_seq"', 5, true);
+
+
+--
+-- Name: comments comments_pkey; Type: CONSTRAINT; Schema: public; Owner: tbelrlezayruhf
+--
+
+ALTER TABLE ONLY "public"."comments"
+    ADD CONSTRAINT "comments_pkey" PRIMARY KEY ("id");
+
+
+--
+-- Name: post_likes post_likes_pkey; Type: CONSTRAINT; Schema: public; Owner: tbelrlezayruhf
 --
 
 ALTER TABLE ONLY "public"."post_likes"
@@ -383,7 +467,7 @@ ALTER TABLE ONLY "public"."post_likes"
 
 
 --
--- Name: posts posts_pkey; Type: CONSTRAINT; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: posts posts_pkey; Type: CONSTRAINT; Schema: public; Owner: tbelrlezayruhf
 --
 
 ALTER TABLE ONLY "public"."posts"
@@ -391,7 +475,7 @@ ALTER TABLE ONLY "public"."posts"
 
 
 --
--- Name: tag_mentions tag_mentions_pkey; Type: CONSTRAINT; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: tag_mentions tag_mentions_pkey; Type: CONSTRAINT; Schema: public; Owner: tbelrlezayruhf
 --
 
 ALTER TABLE ONLY "public"."tag_mentions"
@@ -399,7 +483,7 @@ ALTER TABLE ONLY "public"."tag_mentions"
 
 
 --
--- Name: tags tags_name_key; Type: CONSTRAINT; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: tags tags_name_key; Type: CONSTRAINT; Schema: public; Owner: tbelrlezayruhf
 --
 
 ALTER TABLE ONLY "public"."tags"
@@ -407,7 +491,7 @@ ALTER TABLE ONLY "public"."tags"
 
 
 --
--- Name: tags tags_pkey; Type: CONSTRAINT; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: tags tags_pkey; Type: CONSTRAINT; Schema: public; Owner: tbelrlezayruhf
 --
 
 ALTER TABLE ONLY "public"."tags"
@@ -415,7 +499,7 @@ ALTER TABLE ONLY "public"."tags"
 
 
 --
--- Name: urls urls_pkey; Type: CONSTRAINT; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: urls urls_pkey; Type: CONSTRAINT; Schema: public; Owner: tbelrlezayruhf
 --
 
 ALTER TABLE ONLY "public"."urls"
@@ -423,7 +507,7 @@ ALTER TABLE ONLY "public"."urls"
 
 
 --
--- Name: urls urls_url_key; Type: CONSTRAINT; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: urls urls_url_key; Type: CONSTRAINT; Schema: public; Owner: tbelrlezayruhf
 --
 
 ALTER TABLE ONLY "public"."urls"
@@ -431,7 +515,7 @@ ALTER TABLE ONLY "public"."urls"
 
 
 --
--- Name: users users_email_key; Type: CONSTRAINT; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: users users_email_key; Type: CONSTRAINT; Schema: public; Owner: tbelrlezayruhf
 --
 
 ALTER TABLE ONLY "public"."users"
@@ -439,7 +523,7 @@ ALTER TABLE ONLY "public"."users"
 
 
 --
--- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: tbelrlezayruhf
 --
 
 ALTER TABLE ONLY "public"."users"
@@ -447,7 +531,15 @@ ALTER TABLE ONLY "public"."users"
 
 
 --
--- Name: post_likes post_likes_post_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: comments comments_post_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: tbelrlezayruhf
+--
+
+ALTER TABLE ONLY "public"."comments"
+    ADD CONSTRAINT "comments_post_id_fkey" FOREIGN KEY ("post_id") REFERENCES "public"."posts"("id") ON DELETE CASCADE;
+
+
+--
+-- Name: post_likes post_likes_post_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: tbelrlezayruhf
 --
 
 ALTER TABLE ONLY "public"."post_likes"
@@ -455,7 +547,7 @@ ALTER TABLE ONLY "public"."post_likes"
 
 
 --
--- Name: post_likes post_likes_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: post_likes post_likes_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: tbelrlezayruhf
 --
 
 ALTER TABLE ONLY "public"."post_likes"
@@ -463,7 +555,7 @@ ALTER TABLE ONLY "public"."post_likes"
 
 
 --
--- Name: posts posts_author_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: posts posts_author_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: tbelrlezayruhf
 --
 
 ALTER TABLE ONLY "public"."posts"
@@ -471,7 +563,7 @@ ALTER TABLE ONLY "public"."posts"
 
 
 --
--- Name: posts posts_url_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: posts posts_url_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: tbelrlezayruhf
 --
 
 ALTER TABLE ONLY "public"."posts"
@@ -479,7 +571,7 @@ ALTER TABLE ONLY "public"."posts"
 
 
 --
--- Name: tag_mentions tag_mentions_post_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: tag_mentions tag_mentions_post_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: tbelrlezayruhf
 --
 
 ALTER TABLE ONLY "public"."tag_mentions"
@@ -487,7 +579,7 @@ ALTER TABLE ONLY "public"."tag_mentions"
 
 
 --
--- Name: tag_mentions tag_mentions_tag_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: qbeaofxarsjuqj
+-- Name: tag_mentions tag_mentions_tag_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: tbelrlezayruhf
 --
 
 ALTER TABLE ONLY "public"."tag_mentions"
