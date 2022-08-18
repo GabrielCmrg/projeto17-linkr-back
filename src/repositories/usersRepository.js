@@ -9,7 +9,7 @@ export const createUser = async (userObject) => {
 };
 
 export const getUserById = async (userId) => {
-  const { rows: user } = connection.query(
+  const { rows: user } = await connection.query(
     'SELECT * FROM users u WHERE u.id = $1',
     [userId]
   );
@@ -22,4 +22,12 @@ export const getUserByEmail = async (email) => {
     [email]
   );
   return user[0];
+};
+
+export const getUsersByName = async (search) => {
+  const { rows: users } = await connection.query(
+    `SELECT id, name, pic_url FROM users WHERE name ILIKE $1||'%'`,
+    [search]
+  );
+  return users;
 };
