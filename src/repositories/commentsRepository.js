@@ -10,7 +10,7 @@ export const getCommentsByPostId = async (postId, userId) => {
         posts.author_id = comments.user_id as authorship,
         comments.user_id IN (
           SELECT followed_id FROM follows WHERE follower_id = $2
-        )
+        ) AS is_followed
       FROM comments
       JOIN users ON users.id = comments.user_id
       JOIN posts ON posts.id = comments.post_id
