@@ -39,33 +39,37 @@ export const getPosts = async (id) => {
 export const getUserPosts = async (id, userId) => {
   const { rows: posts } = await connection.query(
     `
-      SELECT
-        posts.id,
-        users.name,
-        posts.author_id,
-        users.pic_url,
-        posts.content,
-        urls.url as link_url,
-        urls.title as link_title,
-        urls.image as link_image,
-        urls.description as link_description, 
-        posts.author_id = $2 as userAuthorship,
-        COUNT(post_likes.id) as likes_amount,
-        $2 IN (SELECT user_id FROM post_likes WHERE post_likes.post_id = posts.id) AS userLiked,
-        (SELECT users.name FROM post_likes JOIN users ON users.id = post_likes.user_id WHERE post_likes.user_id <> $2 AND post_likes.post_id = posts.id ORDER BY post_likes.id LIMIT 1) AS firstLike,
-        (SELECT users.name FROM post_likes JOIN users ON users.id = post_likes.user_id WHERE post_likes.user_id <> $2 AND post_likes.post_id = posts.id ORDER BY post_likes.id OFFSET 1 LIMIT 1) AS secondLike 
-      FROM posts  
-      JOIN users ON users.id = posts.author_id 
-      JOIN urls ON urls.id = posts.url_id 
-      LEFT JOIN post_likes ON post_likes.post_id = posts.id 
-      WHERE posts.author_id = $1 
-      GROUP BY posts.id, users.name, posts.author_id, users.pic_url, posts.content, urls.url, urls.title, urls.image, urls.description, userAuthorship, userLiked, firstLike, secondLike 
-      ORDER BY posts.id DESC
-      LIMIT 20
+    SELECT
+    posts.id,
+    posts.original_post_id,
+    users.name,
+    (select count(id) - 1 as reposts from posts p where p.original_post_id = posts.original_post_id),
+    reposters.name AS name_author_shared,
+    posts.author_id,
+    users.pic_url,
+    posts.content,
+    urls.url AS link_url,
+    urls.title AS link_title,
+    urls.image as link_image,
+    urls.description as link_description,
+    posts.author_id = $2 as userAuthorship,
+    COUNT(post_likes.id) as likes_amount,
+    $2 IN (SELECT user_id FROM post_likes WHERE post_likes.post_id = posts.original_post_id) AS userLiked,
+    (SELECT users.name FROM post_likes JOIN users ON users.id = post_likes.user_id WHERE post_likes.user_id <> $1 AND post_likes.post_id = posts.original_post_id ORDER BY post_likes.id LIMIT 1) AS firstLike,
+    (SELECT users.name FROM post_likes JOIN users ON users.id = post_likes.user_id WHERE post_likes.user_id <> $1 AND post_likes.post_id = posts.original_post_id ORDER BY post_likes.id OFFSET 1 LIMIT 1) AS secondLike
+    FROM posts
+    JOIN users ON users.id = posts.author_id
+    JOIN urls ON posts.url_id = urls.id
+    JOIN posts original_posts ON original_posts.id = posts.original_post_id
+    LEFT JOIN users reposters ON reposters.id = posts.author_shared_id 
+    LEFT JOIN post_likes ON post_likes.post_id = posts.original_post_id
+    WHERE posts.author_id = $1
+    GROUP BY posts.id, users.name,reposters.name, posts.author_id, users.pic_url, posts.content, urls.url, urls.title, urls.image, urls.description, userAuthorship, userLiked, firstLike, secondLike
+    ORDER BY posts.id DESC
+    LIMIT 20
     `,
     [id, userId]
   );
-
   return posts;
 };
 
