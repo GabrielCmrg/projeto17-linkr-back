@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { usersController } from '../controllers/index.js';
-import { authMiddlewares, usersMiddlewares } from '../middlewares/index.js'
+import { authMiddlewares, usersMiddlewares } from '../middlewares/index.js';
 
 const userRouter = express.Router();
 
@@ -15,14 +15,14 @@ userRouter.post(
   '/followuser/:id',
   authMiddlewares.tokenValidation,
   usersMiddlewares.checkFollowStatus,
-  usersController.followUser,
+  usersController.followUser
 );
 
 userRouter.delete(
   '/unfollowuser/:id',
   authMiddlewares.tokenValidation,
   usersMiddlewares.checkFollowStatus,
-  usersController.unfollowUser,
+  usersController.unfollowUser
 );
 
 export default userRouter;

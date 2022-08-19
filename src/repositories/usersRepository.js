@@ -32,24 +32,24 @@ export const getUsersByName = async (search, userId) => {
   return users;
 };
 
-export const followUser = async (followed_id, follower_id) => {
+export const followUser = async (followedId, followerId) => {
   await connection.query(
     `INSERT INTO follows (followed_id, follower_id) VALUES ($1, $2)`,
-    [followed_id, follower_id]
+    [followedId, followerId]
   );
 };
 
-export const unfollowUser = async (followed_id, follower_id) => {
+export const unfollowUser = async (followedId, followerId) => {
   await connection.query(
     `DELETE FROM follows WHERE followed_id = $1 AND follower_id = $2`,
-    [followed_id, follower_id]
+    [followedId, followerId]
   );
 };
 
-export const checkFollowStatus = async (followed_id, follower_id) => {
+export const checkFollowStatus = async (followedId, followerId) => {
   const { rows: followStatus } = await connection.query(
     'SELECT * FROM follows WHERE followed_id = $1 AND follower_id = $2',
-    [followed_id, follower_id]
+    [followedId, followerId]
   );
   return followStatus[0];
 };

@@ -58,18 +58,16 @@ export const getUsersByName = async (req, res) => {
 };
 
 export const followUser = async (req, res) => {
-  const followedId  = parseInt(req.params.id);
+  const followedId = parseInt(req.params.id, 10);
   const followerId = res.locals.userId;
   const { followStatus } = res.locals;
 
   if (followStatus) {
-    return res
-      .status(409)
-      .send('Follow request failed, user already followed')
-  } else if (followedId === followerId) {
-    return res
-      .status(409)
-      .send('you can not follow yourself')
+    return res.status(409).send('Follow request failed, user already followed');
+  }
+
+  if (followedId === followerId) {
+    return res.status(409).send('you can not follow yourself');
   }
 
   try {
@@ -85,16 +83,16 @@ export const followUser = async (req, res) => {
 };
 
 export const unfollowUser = async (req, res) => {
-  const followedId  = parseInt(req.params.id);
+  const followedId = parseInt(req.params.id, 10);
   const followerId = res.locals.userId;
   const { followStatus } = res.locals;
 
   if (!followStatus) {
     return res
       .status(409)
-      .send('Unfollow request failed, user should already be followed')
+      .send('Unfollow request failed, user should already be followed');
   }
-  
+
   try {
     await usersRepository.unfollowUser(followedId, followerId);
 
