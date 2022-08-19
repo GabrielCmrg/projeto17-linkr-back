@@ -2,10 +2,38 @@ import connection from '../databases/postgres.js';
 
 export const getPosts = async (id) => {
   const { rows: posts } = await connection.query(
+    // `
+    // SELECT
+    // posts.id,
+    // posts.original_post_id,
+    // users.name,
+    // posts.author_id,
+    // users.pic_url,
+    // posts.content,
+    // urls.url AS link_url,
+    // urls.title AS link_title,
+    // urls.image as link_image,
+    // urls.description as link_description,
+    // posts.author_id = $1 as userAuthorship,
+    // COUNT(post_likes.id) as likes_amount,
+    // $1 IN (SELECT user_id FROM post_likes WHERE post_likes.post_id = posts.id) AS userLiked,
+    // (SELECT users.name FROM post_likes JOIN users ON users.id = post_likes.user_id WHERE post_likes.user_id <> $1 AND post_likes.post_id = posts.id ORDER BY post_likes.id LIMIT 1) AS firstLike,
+    // (SELECT users.name FROM post_likes JOIN users ON users.id = post_likes.user_id WHERE post_likes.user_id <> $1 AND post_likes.post_id = posts.id ORDER BY post_likes.id OFFSET 1 LIMIT 1) AS secondLike
+    // FROM posts
+    // JOIN users ON users.id = posts.author_id
+    // JOIN urls ON posts.url_id = urls.id
+    // LEFT JOIN post_likes ON post_likes.post_id = posts.id
+    // GROUP BY posts.id, users.name, posts.author_id, users.pic_url, posts.content, urls.url, urls.title, urls.image, urls.description, userAuthorship, userLiked, firstLike, secondLike
+    // ORDER BY posts.id DESC
+    // LIMIT 20
+    // `,
     `
     SELECT
     posts.id,
+    posts.original_post_id,
     users.name,
+    (select count(id) - 1 as reposts from posts p where p.original_post_id = posts.original_post_id),
+    reposters.name AS name_author_shared,
     posts.author_id,
     users.pic_url,
     posts.content,
@@ -15,22 +43,24 @@ export const getPosts = async (id) => {
     urls.description as link_description,
     posts.author_id = $1 as userAuthorship,
     COUNT(post_likes.id) as likes_amount,
-    $1 IN (SELECT user_id FROM post_likes WHERE post_likes.post_id = posts.id) AS userLiked,
-    (SELECT users.name FROM post_likes JOIN users ON users.id = post_likes.user_id WHERE post_likes.user_id <> $1 AND post_likes.post_id = posts.id ORDER BY post_likes.id LIMIT 1) AS firstLike,
-    (SELECT users.name FROM post_likes JOIN users ON users.id = post_likes.user_id WHERE post_likes.user_id <> $1 AND post_likes.post_id = posts.id ORDER BY post_likes.id OFFSET 1 LIMIT 1) AS secondLike
-  FROM posts
-  JOIN users ON users.id = posts.author_id
-  JOIN urls ON posts.url_id = urls.id
-  LEFT JOIN post_likes ON post_likes.post_id = posts.id
-  GROUP BY posts.id, users.name, posts.author_id, users.pic_url, posts.content, urls.url, urls.title, urls.image, urls.description, userAuthorship, userLiked, firstLike, secondLike
-  ORDER BY posts.id DESC
-  LIMIT 20`,
+    $1 IN (SELECT user_id FROM post_likes WHERE post_likes.post_id = posts.original_post_id) AS userLiked,
+    (SELECT users.name FROM post_likes JOIN users ON users.id = post_likes.user_id WHERE post_likes.user_id <> $1 AND post_likes.post_id = posts.original_post_id ORDER BY post_likes.id LIMIT 1) AS firstLike,
+    (SELECT users.name FROM post_likes JOIN users ON users.id = post_likes.user_id WHERE post_likes.user_id <> $1 AND post_likes.post_id = posts.original_post_id ORDER BY post_likes.id OFFSET 1 LIMIT 1) AS secondLike
+    FROM posts
+    JOIN users ON users.id = posts.author_id
+    JOIN urls ON posts.url_id = urls.id
+    JOIN posts original_posts ON original_posts.id = posts.original_post_id
+    LEFT JOIN users reposters ON reposters.id = posts.author_shared_id 
+    LEFT JOIN post_likes ON post_likes.post_id = posts.original_post_id
+
+    GROUP BY posts.id, users.name,reposters.name, posts.author_id, users.pic_url, posts.content, urls.url, urls.title, urls.image, urls.description, userAuthorship, userLiked, firstLike, secondLike
+    ORDER BY posts.id DESC
+    LIMIT 20
+    `,
     [id]
   );
-
   return posts;
 };
-
 export const getUserPosts = async (id, userId) => {
   const { rows: posts } = await connection.query(
     `
@@ -65,7 +95,7 @@ export const getUserPosts = async (id, userId) => {
 };
 
 export const getTagPosts = async (hashtag, userId) => {
-  const searchHashtag = "#" + hashtag
+  const searchHashtag = `# + ${hashtag}`;
   const { rows: posts } = await connection.query(
     `
       SELECT
@@ -109,6 +139,32 @@ export const createPost = async (userId, content, urlId) => {
     [userId, content, urlId]
   );
   return post[0];
+};
+
+export const createSharePost = async (userId, postId) => {
+  const { rows: dataOriginalPost } = await connection.query(
+    `
+    SELECT 
+      posts.*
+    FROM posts
+    WHERE posts.id = $1 
+    `,
+    [postId]
+  );
+  console.log(dataOriginalPost[0]);
+  await connection.query(
+    `
+    INSERT INTO posts(original_post_id, author_id, content, url_id, author_shared_id )
+    VALUES($1,$2,$3,$4,$5)
+    `,
+    [
+      postId,
+      dataOriginalPost[0].author_id,
+      dataOriginalPost[0].content,
+      dataOriginalPost[0].url_id,
+      userId,
+    ]
+  );
 };
 
 export const getPostById = async (id) => {
@@ -169,7 +225,7 @@ export const createPostDislike = async (postId, userId) => {
   return dislike;
 };
 
-export const deleteAllLikesFromThepost = async(postId) =>{
+export const deleteAllLikesFromThepost = async (postId) => {
   const { rows: deleteLikes } = await connection.query(
     `
     DELETE FROM post_likes
@@ -178,5 +234,5 @@ export const deleteAllLikesFromThepost = async(postId) =>{
     `,
     [postId]
   );
-    return deleteLikes;
+  return deleteLikes;
 };

@@ -34,7 +34,7 @@ export const loginUser = async (req, res) => {
     }
     const { JWT_SECRET_KEY } = process.env;
     const token = jwt.sign({ userId: user.id }, JWT_SECRET_KEY);
-    return res.json({ token, image: user.pic_url });
+    return res.json({ token, image: user.pic_url, name: user.name });
   } catch (error) {
     console.error(error);
     return res
