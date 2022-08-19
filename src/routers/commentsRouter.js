@@ -5,6 +5,11 @@ import { commentsController } from '../controllers/index.js';
 
 const commentsRouter = express.Router();
 
+commentsRouter.get(
+  '/comments',
+  authMiddlewares.tokenValidation,
+  commentsController.getPostComments
+);
 commentsRouter.post(
   '/comments',
   authMiddlewares.tokenValidation,

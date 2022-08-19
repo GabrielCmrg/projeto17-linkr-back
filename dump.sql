@@ -57,6 +57,44 @@ ALTER SEQUENCE "public"."comments_id_seq" OWNED BY "public"."comments"."id";
 
 
 --
+<<<<<<< HEAD
+-- Name: follows; Type: TABLE; Schema: public; Owner: tbelrlezayruhf
+--
+
+CREATE TABLE "public"."follows" (
+    "id" integer NOT NULL,
+    "follower_id" integer NOT NULL,
+    "followed_id" integer NOT NULL
+);
+
+
+ALTER TABLE public.follows OWNER TO tbelrlezayruhf;
+
+--
+-- Name: follows_id_seq; Type: SEQUENCE; Schema: public; Owner: tbelrlezayruhf
+--
+
+CREATE SEQUENCE "public"."follows_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.follows_id_seq OWNER TO tbelrlezayruhf;
+
+--
+-- Name: follows_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: tbelrlezayruhf
+--
+
+ALTER SEQUENCE "public"."follows_id_seq" OWNED BY "public"."follows"."id";
+
+
+--
+=======
+>>>>>>> dev
 -- Name: post_likes; Type: TABLE; Schema: public; Owner: tbelrlezayruhf
 --
 
@@ -278,6 +316,16 @@ ALTER TABLE ONLY "public"."comments" ALTER COLUMN "id" SET DEFAULT "nextval"('"p
 
 
 --
+<<<<<<< HEAD
+-- Name: follows id; Type: DEFAULT; Schema: public; Owner: tbelrlezayruhf
+--
+
+ALTER TABLE ONLY "public"."follows" ALTER COLUMN "id" SET DEFAULT "nextval"('"public"."follows_id_seq"'::"regclass");
+
+
+--
+=======
+>>>>>>> dev
 -- Name: post_likes id; Type: DEFAULT; Schema: public; Owner: tbelrlezayruhf
 --
 
@@ -328,6 +376,17 @@ COPY "public"."comments" ("id", "comment", "post_id", "user_id") FROM stdin;
 
 
 --
+<<<<<<< HEAD
+-- Data for Name: follows; Type: TABLE DATA; Schema: public; Owner: tbelrlezayruhf
+--
+
+COPY "public"."follows" ("id", "follower_id", "followed_id") FROM stdin;
+\.
+
+
+--
+=======
+>>>>>>> dev
 -- Data for Name: post_likes; Type: TABLE DATA; Schema: public; Owner: tbelrlezayruhf
 --
 
@@ -413,6 +472,14 @@ SELECT pg_catalog.setval('"public"."comments_id_seq"', 1, false);
 
 
 --
+<<<<<<< HEAD
+-- Name: follows_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tbelrlezayruhf
+--
+
+SELECT pg_catalog.setval('"public"."follows_id_seq"', 1, false);
+
+
+--
 -- Name: post_likes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tbelrlezayruhf
 --
 
@@ -448,6 +515,43 @@ SELECT pg_catalog.setval('"public"."urls_id_seq"', 19, true);
 
 
 --
+=======
+-- Name: post_likes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tbelrlezayruhf
+--
+
+SELECT pg_catalog.setval('"public"."post_likes_id_seq"', 84, true);
+
+
+--
+-- Name: posts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tbelrlezayruhf
+--
+
+SELECT pg_catalog.setval('"public"."posts_id_seq"', 25, true);
+
+
+--
+-- Name: tag_mentions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tbelrlezayruhf
+--
+
+SELECT pg_catalog.setval('"public"."tag_mentions_id_seq"', 8, true);
+
+
+--
+-- Name: tags_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tbelrlezayruhf
+--
+
+SELECT pg_catalog.setval('"public"."tags_id_seq"', 5, true);
+
+
+--
+-- Name: urls_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tbelrlezayruhf
+--
+
+SELECT pg_catalog.setval('"public"."urls_id_seq"', 19, true);
+
+
+--
+>>>>>>> dev
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tbelrlezayruhf
 --
 
@@ -463,6 +567,17 @@ ALTER TABLE ONLY "public"."comments"
 
 
 --
+<<<<<<< HEAD
+-- Name: follows follows_pkey; Type: CONSTRAINT; Schema: public; Owner: tbelrlezayruhf
+--
+
+ALTER TABLE ONLY "public"."follows"
+    ADD CONSTRAINT "follows_pkey" PRIMARY KEY ("id");
+
+
+--
+=======
+>>>>>>> dev
 -- Name: post_likes post_likes_pkey; Type: CONSTRAINT; Schema: public; Owner: tbelrlezayruhf
 --
 
@@ -551,6 +666,25 @@ ALTER TABLE ONLY "public"."comments"
 
 
 --
+<<<<<<< HEAD
+-- Name: follows follows_followed_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: tbelrlezayruhf
+--
+
+ALTER TABLE ONLY "public"."follows"
+    ADD CONSTRAINT "follows_followed_id_fkey" FOREIGN KEY ("followed_id") REFERENCES "public"."users"("id");
+
+
+--
+-- Name: follows follows_follower_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: tbelrlezayruhf
+--
+
+ALTER TABLE ONLY "public"."follows"
+    ADD CONSTRAINT "follows_follower_id_fkey" FOREIGN KEY ("follower_id") REFERENCES "public"."users"("id");
+
+
+--
+=======
+>>>>>>> dev
 -- Name: post_likes post_likes_post_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: tbelrlezayruhf
 --
 
