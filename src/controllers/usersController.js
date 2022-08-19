@@ -34,7 +34,7 @@ export const loginUser = async (req, res) => {
     }
     const { JWT_SECRET_KEY } = process.env;
     const token = jwt.sign({ userId: user.id }, JWT_SECRET_KEY);
-    return res.json({ token, image: user.pic_url });
+    return res.json({ token, image: user.pic_url, name: user.name });
   } catch (error) {
     console.error(error);
     return res
@@ -45,9 +45,9 @@ export const loginUser = async (req, res) => {
 
 export const getUsersByName = async (req, res) => {
   const { search } = req.body;
-  const { userId } = res.locals;
   try {
-    const users = await usersRepository.getUsersByName(search, userId);
+    const users = await usersRepository.getUsersByName(search);
+
     return res.json(users);
   } catch (error) {
     console.error(error);

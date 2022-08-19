@@ -5,11 +5,7 @@ import { authMiddlewares, usersMiddlewares } from '../middlewares/index.js';
 
 const userRouter = express.Router();
 
-userRouter.post(
-  '/searchuser',
-  authMiddlewares.tokenValidation,
-  usersController.getUsersByName
-);
+userRouter.post('/searchuser', usersController.getUsersByName);
 
 userRouter.post(
   '/followuser/:id',
