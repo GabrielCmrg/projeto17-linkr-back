@@ -6,7 +6,7 @@ import { commentsController } from '../controllers/index.js';
 const commentsRouter = express.Router();
 
 commentsRouter.get(
-  '/comments/post/:postId',
+  '/comments',
   authMiddlewares.tokenValidation,
   commentsController.getPostComments
 );
