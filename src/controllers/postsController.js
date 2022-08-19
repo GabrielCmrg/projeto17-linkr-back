@@ -78,7 +78,6 @@ export const sendPost = async (req, res) => {
 export const sharePost = async (req, res) => {
   const { userId } = res.locals;
   const { postId } = req.body;
-  console.log('entroy');
   try {
     await postsRepository.createSharePost(userId, postId);
     return res.status(201).send('Post shared');
