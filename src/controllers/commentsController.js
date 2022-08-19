@@ -2,7 +2,7 @@ import { commentsRepository } from '../repositories/index.js';
 
 export const getPostComments = async (req, res) => {
   const { userId } = res.locals;
-  const postId = req.query;
+  const { postId } = req.query;
   try {
     const comments = await commentsRepository.getCommentsByPostId(
       postId,
