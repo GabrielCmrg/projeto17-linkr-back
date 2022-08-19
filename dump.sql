@@ -27,7 +27,8 @@ SET default_table_access_method = heap;
 CREATE TABLE "public"."comments" (
     "id" integer NOT NULL,
     "comment" "text" NOT NULL,
-    "post_id" integer NOT NULL
+    "post_id" integer NOT NULL,
+    "user_id" integer NOT NULL
 );
 
 
@@ -322,7 +323,7 @@ ALTER TABLE ONLY "public"."users" ALTER COLUMN "id" SET DEFAULT "nextval"('"publ
 -- Data for Name: comments; Type: TABLE DATA; Schema: public; Owner: tbelrlezayruhf
 --
 
-COPY "public"."comments" ("id", "comment", "post_id") FROM stdin;
+COPY "public"."comments" ("id", "comment", "post_id", "user_id") FROM stdin;
 \.
 
 
@@ -335,6 +336,8 @@ COPY "public"."post_likes" ("id", "post_id", "user_id") FROM stdin;
 64	18	2
 80	24	4
 81	23	4
+83	18	4
+84	18	6
 50	17	4
 \.
 
@@ -398,6 +401,7 @@ COPY "public"."users" ("id", "name", "email", "password", "pic_url") FROM stdin;
 3	claudia	claudia@driven.com	$2b$10$HlAQR8AxnOWzBc0T/mSP0OJvpppK5Mgx5k.Gw1Y7NpJk5g3tHRFv6	https://static1.tudosobremake.com.br/articles/9/21/15/9/@/232829-para-o-dia-da-mulher-os-6-produtos-de-m-article_media_new_3_1-4.jpg
 4	Pato	pato@gmail.com	$2b$10$8TCOb1Je2UO1WS0Dt7Bvs.vXjbCNhs9hTDOCnezifyDo/YDZznc0W	https://st.depositphotos.com/1007514/2506/i/600/depositphotos_25067721-stock-photo-mallard-duck-with-clipping-path.jpg
 5	gzin	g@g.com	$2b$10$UWmv7fBMPUa7vDI5hOCDQOC3Akawaro3MCquIgEUZTKM9nGHiBGFu	http://img4.wikia.nocookie.net/__cb20100624200028/zelda/images/9/9d/Link_Artwork_1_(Twilight_Princess).png
+6	Fake	fake@gmail.com	$2b$10$DJLr5cZLS9mnKxoVyok7MObOCJemmctng/K4OnvRFK4OZ.skh1NkK	https://i.pinimg.com/originals/e4/34/2a/e4342a4e0e968344b75cf50cf1936c09.jpg
 \.
 
 
@@ -412,7 +416,7 @@ SELECT pg_catalog.setval('"public"."comments_id_seq"', 1, false);
 -- Name: post_likes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tbelrlezayruhf
 --
 
-SELECT pg_catalog.setval('"public"."post_likes_id_seq"', 81, true);
+SELECT pg_catalog.setval('"public"."post_likes_id_seq"', 84, true);
 
 
 --
@@ -447,7 +451,7 @@ SELECT pg_catalog.setval('"public"."urls_id_seq"', 19, true);
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tbelrlezayruhf
 --
 
-SELECT pg_catalog.setval('"public"."users_id_seq"', 5, true);
+SELECT pg_catalog.setval('"public"."users_id_seq"', 6, true);
 
 
 --
@@ -536,6 +540,14 @@ ALTER TABLE ONLY "public"."users"
 
 ALTER TABLE ONLY "public"."comments"
     ADD CONSTRAINT "comments_post_id_fkey" FOREIGN KEY ("post_id") REFERENCES "public"."posts"("id") ON DELETE CASCADE;
+
+
+--
+-- Name: comments comments_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: tbelrlezayruhf
+--
+
+ALTER TABLE ONLY "public"."comments"
+    ADD CONSTRAINT "comments_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE CASCADE;
 
 
 --
