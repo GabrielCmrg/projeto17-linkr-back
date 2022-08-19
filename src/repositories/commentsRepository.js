@@ -1,7 +1,7 @@
 import connection from '../databases/postgres.js';
 
 export const getCommentsByPostId = async (postId, userId) => {
-  await connection.query(
+  const { rows: comments } = await connection.query(
     `
       SELECT
         comments.*,
@@ -18,4 +18,5 @@ export const getCommentsByPostId = async (postId, userId) => {
     `,
     [postId, userId]
   );
+  return comments;
 };
