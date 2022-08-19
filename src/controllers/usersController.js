@@ -56,3 +56,51 @@ export const getUsersByName = async (req, res) => {
       .send('Something went wrong when trying to search the users.');
   }
 };
+
+export const followUser = async (req, res) => {
+  const followedId = parseInt(req.params.id, 10);
+  const followerId = res.locals.userId;
+  const { followStatus } = res.locals;
+
+  if (followStatus) {
+    return res.status(409).send('Follow request failed, user already followed');
+  }
+
+  if (followedId === followerId) {
+    return res.status(409).send('you can not follow yourself');
+  }
+
+  try {
+    await usersRepository.followUser(followedId, followerId);
+
+    return res.sendStatus(200);
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .send('Something went wrong when trying to follow user.');
+  }
+};
+
+export const unfollowUser = async (req, res) => {
+  const followedId = parseInt(req.params.id, 10);
+  const followerId = res.locals.userId;
+  const { followStatus } = res.locals;
+
+  if (!followStatus) {
+    return res
+      .status(409)
+      .send('Unfollow request failed, user should already be followed');
+  }
+
+  try {
+    await usersRepository.unfollowUser(followedId, followerId);
+
+    return res.sendStatus(200);
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .send('Something went wrong when trying to unfollow user.');
+  }
+};
