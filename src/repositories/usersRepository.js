@@ -8,10 +8,10 @@ export const createUser = async (userObject) => {
   );
 };
 
-export const getUserById = async (id, userId) => {
+export const getUserById = async (userId) => {
   const { rows: user } = await connection.query(
-    'SELECT users.name, users.pic_url, EXISTS(SELECT * FROM follows WHERE followed_id = $1 AND follower_id = $2) as follow_status FROM users WHERE users.id = $1;',
-    [id, userId]
+    'SELECT * FROM users u WHERE u.id = $1',
+    [userId]
   );
   return user[0];
 };
@@ -24,32 +24,10 @@ export const getUserByEmail = async (email) => {
   return user[0];
 };
 
-export const getUsersByName = async (search, userId) => {
+export const getUsersByName = async (search) => {
   const { rows: users } = await connection.query(
-    `SELECT id, name, pic_url, EXISTS(SELECT * FROM follows WHERE followed_id = users.id AND follower_id = $2) as follow_status FROM users WHERE name ILIKE $1 ORDER BY follow_status DESC, name`,
-    [`${search}%`, userId]
+    `SELECT id, name, pic_url FROM users WHERE name ILIKE $1||'%'`,
+    [search]
   );
   return users;
-};
-
-export const followUser = async (followed_id, follower_id) => {
-  await connection.query(
-    `INSERT INTO follows (followed_id, follower_id) VALUES ($1, $2)`,
-    [followed_id, follower_id]
-  );
-};
-
-export const unfollowUser = async (followed_id, follower_id) => {
-  await connection.query(
-    `DELETE FROM follows WHERE followed_id = $1 AND follower_id = $2`,
-    [followed_id, follower_id]
-  );
-};
-
-export const checkFollowStatus = async (followed_id, follower_id) => {
-  const { rows: followStatus } = await connection.query(
-    'SELECT * FROM follows WHERE followed_id = $1 AND follower_id = $2',
-    [followed_id, follower_id]
-  );
-  return followStatus[0];
 };

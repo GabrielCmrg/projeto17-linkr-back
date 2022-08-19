@@ -37,12 +37,19 @@ postsRouter.delete(
   postsMiddlewares.checkReqParams,
   postsController.deletePost
 );
+
 postsRouter.put(
   '/posts/:id',
   authMiddlewares.tokenValidation,
   postsMiddlewares.checkSendPostBody,
   postsMiddlewares.checkReqParams,
   postsController.editPost
+);
+
+postsRouter.post(
+  '/posts/share',
+  authMiddlewares.tokenValidation,
+  postsController.sharePost
 );
 
 postsRouter.post(
