@@ -80,7 +80,7 @@ export const getUserPosts = async (req, res) => {
   const { userId } = res.locals;
 
   try {
-    const userData = await usersRepository.getUserById(id);
+    const userData = await usersRepository.getUserById(id, userId);
     const userPosts = await postsRepository.getUserPosts(id, userId);
 
     if (!userData) {
@@ -90,7 +90,9 @@ export const getUserPosts = async (req, res) => {
     const pageBody = {
       userName: userData.name,
       userPicUrl: userData.pic_url,
-      userPosts,
+      followStatus: userData.follow_status,
+      accountOwner: (id == userId),
+      userPosts
     };
     return res.json(pageBody);
   } catch (error) {
