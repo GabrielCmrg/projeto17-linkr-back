@@ -75,6 +75,20 @@ export const sendPost = async (req, res) => {
   }
 };
 
+export const sharePost = async (req, res) => {
+  const { userId } = res.locals;
+  const { postId } = req.body;
+  try {
+    await postsRepository.createSharePost(userId, postId);
+    return res.status(201).send('Post shared');
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .send('Something went wrong when trying to share a post.');
+  }
+};
+
 export const getUserPosts = async (req, res) => {
   const { id } = req.params;
   const { userId } = res.locals;
@@ -110,7 +124,7 @@ export const getTagPosts = async (req, res) => {
 
     const pageBody = {
       hashtag,
-      tagPosts
+      tagPosts,
     };
 
     return res.json(pageBody);
@@ -126,7 +140,6 @@ export const deletePost = async (req, res) => {
   const { id, userId } = res.locals;
 
   try {
-    
     const postData = await postsRepository.getPostById(id);
 
     if (!postData) {
