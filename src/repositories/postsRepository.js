@@ -80,6 +80,7 @@ export const getTagPosts = async (hashtag, userId) => {
       SELECT
         posts.id,
         users.name,
+        (select count(id) - 1 as reposts from posts p where p.original_post_id = posts.original_post_id),
         posts.author_id,
         users.pic_url,
         posts.content,
@@ -95,9 +96,11 @@ export const getTagPosts = async (hashtag, userId) => {
       FROM posts  
       JOIN users ON users.id = posts.author_id
       JOIN urls ON urls.id = posts.url_id
+      JOIN posts original_posts ON original_posts.id = posts.original_post_id
       JOIN tag_mentions ON tag_mentions.post_id = posts.id
       JOIN tags ON tags.id = tag_mentions.tag_id 
-      LEFT JOIN post_likes ON post_likes.post_id = posts.id 
+      LEFT JOIN post_likes ON post_likes.post_id = posts.id
+      LEFT JOIN users reposters ON reposters.id = posts.author_shared_id  
       WHERE tags.name ILIKE $1
       GROUP BY posts.id, users.name, posts.author_id, users.pic_url, posts.content, urls.url, urls.title, urls.image, urls.description, userAuthorship, userLiked, firstLike, secondLike 
       ORDER BY posts.id DESC

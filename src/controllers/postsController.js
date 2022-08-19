@@ -100,7 +100,6 @@ export const getUserPosts = async (req, res) => {
     if (!userData) {
       return res.status(404).send('User not found.');
     }
-
     const pageBody = {
       userName: userData.name,
       userPicUrl: userData.pic_url,
