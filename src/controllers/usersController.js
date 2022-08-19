@@ -45,64 +45,14 @@ export const loginUser = async (req, res) => {
 
 export const getUsersByName = async (req, res) => {
   const { search } = req.body;
-  const { userId } = res.locals;
   try {
-    const users = await usersRepository.getUsersByName(search, userId);
+    const users = await usersRepository.getUsersByName(search);
+
     return res.json(users);
   } catch (error) {
     console.error(error);
     return res
       .status(500)
       .send('Something went wrong when trying to search the users.');
-  }
-};
-
-export const followUser = async (req, res) => {
-  const followedId  = parseInt(req.params.id);
-  const followerId = res.locals.userId;
-  const { followStatus } = res.locals;
-
-  if (followStatus) {
-    return res
-      .status(409)
-      .send('Follow request failed, user already followed')
-  } else if (followedId === followerId) {
-    return res
-      .status(409)
-      .send('you can not follow yourself')
-  }
-
-  try {
-    await usersRepository.followUser(followedId, followerId);
-
-    return res.sendStatus(200);
-  } catch (error) {
-    console.error(error);
-    return res
-      .status(500)
-      .send('Something went wrong when trying to follow user.');
-  }
-};
-
-export const unfollowUser = async (req, res) => {
-  const followedId  = parseInt(req.params.id);
-  const followerId = res.locals.userId;
-  const { followStatus } = res.locals;
-
-  if (!followStatus) {
-    return res
-      .status(409)
-      .send('Unfollow request failed, user should already be followed')
-  }
-  
-  try {
-    await usersRepository.unfollowUser(followedId, followerId);
-
-    return res.sendStatus(200);
-  } catch (error) {
-    console.error(error);
-    return res
-      .status(500)
-      .send('Something went wrong when trying to unfollow user.');
   }
 };
