@@ -57,7 +57,6 @@ ALTER SEQUENCE "public"."comments_id_seq" OWNED BY "public"."comments"."id";
 
 
 --
-<<<<<<< HEAD
 -- Name: follows; Type: TABLE; Schema: public; Owner: tbelrlezayruhf
 --
 
@@ -93,8 +92,6 @@ ALTER SEQUENCE "public"."follows_id_seq" OWNED BY "public"."follows"."id";
 
 
 --
-=======
->>>>>>> dev
 -- Name: post_likes; Type: TABLE; Schema: public; Owner: tbelrlezayruhf
 --
 
@@ -137,7 +134,9 @@ CREATE TABLE "public"."posts" (
     "id" integer NOT NULL,
     "url_id" integer NOT NULL,
     "content" "text",
-    "author_id" integer NOT NULL
+    "author_id" integer NOT NULL,
+    "original_post_id" integer,
+    "author_shared_id" integer
 );
 
 
@@ -316,7 +315,6 @@ ALTER TABLE ONLY "public"."comments" ALTER COLUMN "id" SET DEFAULT "nextval"('"p
 
 
 --
-<<<<<<< HEAD
 -- Name: follows id; Type: DEFAULT; Schema: public; Owner: tbelrlezayruhf
 --
 
@@ -324,8 +322,6 @@ ALTER TABLE ONLY "public"."follows" ALTER COLUMN "id" SET DEFAULT "nextval"('"pu
 
 
 --
-=======
->>>>>>> dev
 -- Name: post_likes id; Type: DEFAULT; Schema: public; Owner: tbelrlezayruhf
 --
 
@@ -337,6 +333,13 @@ ALTER TABLE ONLY "public"."post_likes" ALTER COLUMN "id" SET DEFAULT "nextval"('
 --
 
 ALTER TABLE ONLY "public"."posts" ALTER COLUMN "id" SET DEFAULT "nextval"('"public"."posts_id_seq"'::"regclass");
+
+
+--
+-- Name: posts original_post_id; Type: DEFAULT; Schema: public; Owner: tbelrlezayruhf
+--
+
+ALTER TABLE ONLY "public"."posts" ALTER COLUMN "original_post_id" SET DEFAULT "currval"('"public"."posts_id_seq"'::"regclass");
 
 
 --
@@ -376,7 +379,6 @@ COPY "public"."comments" ("id", "comment", "post_id", "user_id") FROM stdin;
 
 
 --
-<<<<<<< HEAD
 -- Data for Name: follows; Type: TABLE DATA; Schema: public; Owner: tbelrlezayruhf
 --
 
@@ -385,19 +387,10 @@ COPY "public"."follows" ("id", "follower_id", "followed_id") FROM stdin;
 
 
 --
-=======
->>>>>>> dev
 -- Data for Name: post_likes; Type: TABLE DATA; Schema: public; Owner: tbelrlezayruhf
 --
 
 COPY "public"."post_likes" ("id", "post_id", "user_id") FROM stdin;
-62	23	2
-64	18	2
-80	24	4
-81	23	4
-83	18	4
-84	18	6
-50	17	4
 \.
 
 
@@ -405,11 +398,10 @@ COPY "public"."post_likes" ("id", "post_id", "user_id") FROM stdin;
 -- Data for Name: posts; Type: TABLE DATA; Schema: public; Owner: tbelrlezayruhf
 --
 
-COPY "public"."posts" ("id", "url_id", "content", "author_id") FROM stdin;
-17	3	Ótimo artigo sobre variáveis de ambiente em #react.	2
-18	12	Artigo sobre #react hooks.	2
-23	17	Artigo sobre #Javascript da concorrência!	2
-24	18	Ótimas dicas de #display # flex para #css.	2
+COPY "public"."posts" ("id", "url_id", "content", "author_id", "original_post_id", "author_shared_id") FROM stdin;
+26	20	Ótimo artigo sobre #html semântico da devmidia.	4	26	\N
+27	20	Ótimo artigo sobre #html semântico da devmidia.	4	26	2
+28	21	Artigo sobre #react muito bom.	2	28	\N
 \.
 
 
@@ -418,11 +410,8 @@ COPY "public"."posts" ("id", "url_id", "content", "author_id") FROM stdin;
 --
 
 COPY "public"."tag_mentions" ("id", "post_id", "tag_id") FROM stdin;
-1	17	1
-2	18	1
-6	23	4
-7	24	5
-8	24	2
+9	26	6
+10	28	7
 \.
 
 
@@ -431,10 +420,8 @@ COPY "public"."tag_mentions" ("id", "post_id", "tag_id") FROM stdin;
 --
 
 COPY "public"."tags" ("id", "name") FROM stdin;
-1	#react
-2	#css
-4	#Javascript
-5	#display
+6	#html
+7	#react
 \.
 
 
@@ -443,10 +430,8 @@ COPY "public"."tags" ("id", "name") FROM stdin;
 --
 
 COPY "public"."urls" ("id", "url", "title", "image", "description") FROM stdin;
-3	https://dev.to/guiselair/utilizando-variaveis-de-ambiente-com-create-react-app-5ckc	Utilizando variáveis de ambiente no ReactJS	https://dev.to/social_previews/article/541624.png	Fala clã! Tudo tranquilo? Depois de um tempo sem d
-12	https://pt-br.reactjs.org/docs/hooks-intro.html	Introdução aos Hooks – React	https://reactjs.org/logo-og.png	A JavaScript library for building user interfaces
-17	https://blog.betrybe.com/javascript/	Javascript: o que &#xE9;, aplica&#xE7;&#xE3;o e como aprender a linguagem JS		Quer aprender tudo sobre Javascript? Confira um gu
-18	https://origamid.com/projetos/flexbox-guia-completo/	Guia completo de FlexBox - CSS - display: flex;	https://www.origamid.com/projetos/flexbox-guia-completo/guia-flexbox.png	Aprenda a utilizar o flexbox para a criação de lay
+20	https://www.devmedia.com.br/html-semantico-conheca-os-elementos-semanticos-da-html5/38065	HTML Semântico: Conheça os elementos semânticos da HTML5	https://arquivo.devmedia.com.br/midiasocial/artigo-devmedia-facebook.jpg	Vamos apresentar as principais tags sem�nticas da 
+21	https://pt-br.reactjs.org/	React – Uma biblioteca JavaScript para criar interfaces de usuário	https://reactjs.org/logo-og.png	A JavaScript library for building user interfaces
 \.
 
 
@@ -468,11 +453,10 @@ COPY "public"."users" ("id", "name", "email", "password", "pic_url") FROM stdin;
 -- Name: comments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tbelrlezayruhf
 --
 
-SELECT pg_catalog.setval('"public"."comments_id_seq"', 1, false);
+SELECT pg_catalog.setval('"public"."comments_id_seq"', 1, true);
 
 
 --
-<<<<<<< HEAD
 -- Name: follows_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tbelrlezayruhf
 --
 
@@ -490,68 +474,31 @@ SELECT pg_catalog.setval('"public"."post_likes_id_seq"', 84, true);
 -- Name: posts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tbelrlezayruhf
 --
 
-SELECT pg_catalog.setval('"public"."posts_id_seq"', 25, true);
+SELECT pg_catalog.setval('"public"."posts_id_seq"', 28, true);
 
 
 --
 -- Name: tag_mentions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tbelrlezayruhf
 --
 
-SELECT pg_catalog.setval('"public"."tag_mentions_id_seq"', 8, true);
+SELECT pg_catalog.setval('"public"."tag_mentions_id_seq"', 10, true);
 
 
 --
 -- Name: tags_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tbelrlezayruhf
 --
 
-SELECT pg_catalog.setval('"public"."tags_id_seq"', 5, true);
+SELECT pg_catalog.setval('"public"."tags_id_seq"', 7, true);
 
 
 --
 -- Name: urls_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tbelrlezayruhf
 --
 
-SELECT pg_catalog.setval('"public"."urls_id_seq"', 19, true);
+SELECT pg_catalog.setval('"public"."urls_id_seq"', 21, true);
 
 
 --
-=======
--- Name: post_likes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tbelrlezayruhf
---
-
-SELECT pg_catalog.setval('"public"."post_likes_id_seq"', 84, true);
-
-
---
--- Name: posts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tbelrlezayruhf
---
-
-SELECT pg_catalog.setval('"public"."posts_id_seq"', 25, true);
-
-
---
--- Name: tag_mentions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tbelrlezayruhf
---
-
-SELECT pg_catalog.setval('"public"."tag_mentions_id_seq"', 8, true);
-
-
---
--- Name: tags_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tbelrlezayruhf
---
-
-SELECT pg_catalog.setval('"public"."tags_id_seq"', 5, true);
-
-
---
--- Name: urls_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tbelrlezayruhf
---
-
-SELECT pg_catalog.setval('"public"."urls_id_seq"', 19, true);
-
-
---
->>>>>>> dev
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tbelrlezayruhf
 --
 
@@ -567,7 +514,6 @@ ALTER TABLE ONLY "public"."comments"
 
 
 --
-<<<<<<< HEAD
 -- Name: follows follows_pkey; Type: CONSTRAINT; Schema: public; Owner: tbelrlezayruhf
 --
 
@@ -576,8 +522,6 @@ ALTER TABLE ONLY "public"."follows"
 
 
 --
-=======
->>>>>>> dev
 -- Name: post_likes post_likes_pkey; Type: CONSTRAINT; Schema: public; Owner: tbelrlezayruhf
 --
 
@@ -666,7 +610,6 @@ ALTER TABLE ONLY "public"."comments"
 
 
 --
-<<<<<<< HEAD
 -- Name: follows follows_followed_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: tbelrlezayruhf
 --
 
@@ -683,8 +626,6 @@ ALTER TABLE ONLY "public"."follows"
 
 
 --
-=======
->>>>>>> dev
 -- Name: post_likes post_likes_post_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: tbelrlezayruhf
 --
 
@@ -706,6 +647,14 @@ ALTER TABLE ONLY "public"."post_likes"
 
 ALTER TABLE ONLY "public"."posts"
     ADD CONSTRAINT "posts_author_id_fkey" FOREIGN KEY ("author_id") REFERENCES "public"."users"("id");
+
+
+--
+-- Name: posts posts_original_post_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: tbelrlezayruhf
+--
+
+ALTER TABLE ONLY "public"."posts"
+    ADD CONSTRAINT "posts_original_post_id_fkey" FOREIGN KEY ("original_post_id") REFERENCES "public"."posts"("id");
 
 
 --
